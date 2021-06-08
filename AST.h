@@ -1,73 +1,104 @@
-#pragma once
+#ifndef _SYNTEXTREE_
+#define _SYNTEXTREE_
+
 #include <stdio.h>
 
-typedef enum
+#ifdef __cplusplus
+extern "C"
 {
-    NK_GLOBALSCOPE,
-    NK_DECLARATION,
-    NK_STATEMENT,
-    NK_EXPRESSION,
-    NK_PARAMETER
-} NodeKind;
+#endif
 
-typedef enum
-{
-    D_ARRAY,
-    D_VAR,
-    D_FUN,
-
-} DeclarationKind;
-
-typedef enum
-{
-    P_ARRAY,
-    P_VAR,
-    P_VOID
-} ParameterKind;
-
-typedef enum
-{
-    S_IF,
-    S_WHILE,
-    S_COMPOUND,
-    S_RETURN
-} StatementKind;
-
-typedef enum
-{
-    E_OP,
-    E_CONST,
-    E_VAR_ID,
-    E_ARRAY_ID,
-    E_CALL_FUN,
-    E_ASSIGN
-} ExpressionKind;
-
-class Node
-{
-public:
-    Node *firstChild;
-    Node *nextBrother;
-    NodeKind nodeKind;
-    union
+    typedef enum
     {
-        int op;
-        int value;
-        char *name;
-    } attribute;
-    int type;
-    int arraySize;
-};
-class DeclarationNode : public Node
-{
+        NK_GLOBALSCOPE,
+        NK_DECLARATION,
+        NK_STATEMENT,
+        NK_EXPRESSION,
+        NK_PARAMETER
+    } NodeKind;
 
-};
-class StatementNode : public Node
-{
-};
-class ExpressionNode : public Node
-{
-};
-class ParameterNode : public Node
-{
-};
+    typedef enum
+    {
+        D_ARRAY,
+        D_VAR,
+        D_FUN,
+
+    } DeclarationKind;
+
+    typedef enum
+    {
+        P_ARRAY,
+        P_VAR,
+        P_VOID
+    } ParameterKind;
+
+    typedef enum
+    {
+        S_IF,
+        S_WHILE,
+        S_COMPOUND,
+        S_RETURN
+    } StatementKind;
+
+    typedef enum
+    {
+        E_OP,
+        E_CONST,
+        E_VAR_ID,
+        E_ARRAY_ID,
+        E_CALL_FUN,
+        E_ASSIGN
+    } ExpressionKind;
+
+    typedef struct TreeNode
+    {
+        struct TreeNode *firstChild;
+        struct TreeNode *nextBrother;
+        int lineNO;
+        NodeKind nodeKind;
+        union
+        {
+            DeclarationKind declaration;
+            StatementKind statement;
+            ExpressionKind expression;
+            ParameterKind parameter;
+        } specificKind;
+
+        union
+        {
+            int op;
+            int value;
+            char *name;
+        } attribute;
+        int type;
+        int arraySize;
+
+        struct TreeNode *symbolMap;
+
+        int dataMemoryAddress;
+        int isAbsoluteAddress;
+
+        int scopeIndex;
+    } TreeNode;
+
+    TreeNode *createNode();
+    TreeNode *createGlobalScopeNode();
+    TreeNode *createDeclarationNode(DeclarationKind specificKind);
+    TreeNode *createStatementNode(StatementKind specificKind);
+    TreeNode *createExpressionNode(ExpressionKind specificKind);
+    TreeNode *createParameterNode(ParameterKind specificKind);
+
+    void freeTree(TreeNode *aTree);
+    void freeBrothers(TreeNode *aNode);
+    void addChildNode(TreeNode *currentNode, TreeNode *aChildNode);
+    void addBrotherNode(TreeNode *currenNode, TreeNode *aNode);
+
+    void printSyntaxTree(FILE *out, TreeNode *aTree, int numEmptySpace);
+    void printTreeNode(FILE *out, TreeNode *aNode, int numEmptySpace);
+    void printToken(FILE *out, int aToken);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif // !_SYNTEXTREE_

@@ -4,16 +4,16 @@
   #include <stdlib.h>
   #include <string.h>
   #include "emitcode.h"
-  #include "symtable.h"
+  #include "symTable.h"
   #include "AST.h"
   extern int yylineno;
   int yylex();
   void yyerror(const char *s);
 
-  extern struct symbolAttributes parsedSymbolAttributes;
+  extern symbolAttributes parsedSymbolAttributes;
 
-  extern struct symbolTable globalSymTab;
-  extern struct symbolTable *CurrentScope;
+  extern symbolTable globalSymTab;
+  extern symbolTable *CurrentScope;
 
   extern int LabelSeed;
   extern int NumOfParams;
@@ -29,12 +29,7 @@
   	char s[15];
 }
 
-%token ELSE
-%token IF
-%token INT
-%token RETURN
-%token VOID
-%token WHILE
+%token IF ELSE INT RETURN VOID WHILE
 
 %token ID
 %token NUM
