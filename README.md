@@ -7,7 +7,7 @@
 ```shell
 yacc -d cminus.y
 lex cminus.l
-cc lex.yy.c y.tab.c emitcode.c symtable.c
+gcc lex.yy.c y.tab.c emitcode.c symtable.c
 ./a.out < 'sourcecode'
 ```
 
