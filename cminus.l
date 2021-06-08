@@ -28,12 +28,12 @@ extern YYSTYPE yylval;
 "=="		{return EQUAL;}
 "!="		{return NOTEQUAL;}
 
-"\+"		{return yytext[0];}
-"\-"		{return yytext[0];}
-"\*"		{return yytext[0];}
-"\/"		{return yytext[0];}
-"<"			{return yytext[0];}
-">"			{return yytext[0];}
+"\+"		{return ADD;}
+"\-"		{return SUB;}
+"\*"		{return MUL;}
+"\/"		{return DIV;}
+"<"			{return LT;}
+">"			{return GT;}
 "="			{return yytext[0];}
 ";"			{return yytext[0];}
 ","			{return yytext[0];}

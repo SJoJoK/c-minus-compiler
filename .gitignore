@@ -3,3 +3,4 @@ lex.yy.*
 y.tab.*
 output*
 a.out
+.vscode

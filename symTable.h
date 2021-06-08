@@ -67,6 +67,5 @@ public:
 };
 
 symbolAttributes parsedSymbolAttributes;
-
 symbolTable globalSymTab;
 symbolTable *CurrentScope;
