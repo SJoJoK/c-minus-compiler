@@ -3,149 +3,140 @@
 #include <string.h>
 #include "symTable.h"
 
-symbolTable *CurrentScope = new symbolTable(nullptr,0,0);
+symbolTable *CurrentScope = new symbolTable(nullptr, 0, 0);
 symbolTable globalSymTab = *CurrentScope;
-
+symbolAttributes parsedSymbolAttributes;
 int ScopeLevel = 0;
 
-struct symbolAttributes parsedSymbolAttributes = {
-  .type=0,
-  .initialized=0,
-  .references=0,
-  .scope=0,
-  .array=0,
-  .arrSize=0,
-  .parameters=0,
-  .localVarStackOffset=0
-};
-
-struct symbolEntry *lookUpSym(char *id){
+symbolEntry *symbolTable::lookUpSym(string id)
+{
   struct symbolTable *tableIterator = CurrentScope;
-  while(tableIterator != NULL){
-    for(int i=0; i < tableIterator->numOfSym; i++){
-      if(strcmp(tableIterator->symTab[i].id, id) == 0){
-        return &tableIterator->symTab[i];
+  while (tableIterator != NULL)
+  {
+      if (tableIterator->symTab.count(id) == 1)
+      {
+        return &tableIterator->symTab.at(id);
       }
-    }
-    tableIterator = tableIterator-> outerScope;
+    tableIterator = tableIterator->outerScope;
   }
   printf("error - id: %s was never declared\n", id);
   exit(0);
 }
 
-void insertSym(char *id, struct symbolAttributes attr, int type){
-  struct symbolEntry symbol = {.type = type,
-                               .attr = attr
-                              };
-  strcpy(symbol.id, id);
-  if(strcmp(id, "main")==0)
-    symbol.attr.references=1;
-        
+void symbolTable::insertSym(string id, struct symbolAttributes attr, int type)
+{
+  symbolEntry symbol(id, type, attr);
+  if (id=="main")
+    symbol.attr.references = 1;
+
   printf("adding symbol to table\n");
   printSym(symbol);
   printf("\n\n");
-    
-  struct symbolTable *tableIterator = CurrentScope;
-  while(tableIterator != NULL){
-    for(int i=0; i < tableIterator->numOfSym; i++){
-      if(strcmp(tableIterator->symTab[i].id, id) == 0){
-        printf("error - id: %s was previously declared\n", id);
-        exit(0);
-      }
+
+  symbolTable *tableIterator = CurrentScope;
+  while (tableIterator != nullptr)
+  {
+    if (tableIterator->symTab.count(id) == 1)
+    {
+      printf("error - id: %s was previously declared\n", id);
+      exit(0);
     }
-    tableIterator = tableIterator-> outerScope;
+    tableIterator = tableIterator->outerScope;
   }
-  CurrentScope->symTab[CurrentScope->numOfSym] = symbol;
+  CurrentScope->symTab.insert(pair<string, symbolEntry>(id, symbol));
   CurrentScope->numOfSym++;
 }
 
-void insertGlobalSym(char *id, struct symbolAttributes attr, int type){
-  struct symbolEntry symbol = {.type = type,
-                               .attr = attr
-                              };
-  strcpy(symbol.id, id);
-  if(strcmp(id, "main")==0)
-    symbol.attr.references=1;
-  
+void symbolTable::insertGlobalSym(string id, struct symbolAttributes attr, int type)
+{
+  symbolEntry symbol(id, type, attr);
+  if (id == "main")
+    symbol.attr.references = 1;
+
   printf("adding symbol to table\n");
   printSym(symbol);
   printf("\n\n");
 
-  struct symbolTable *tableIterator = &globalSymTab;
-  for(int i=0; i < tableIterator->numOfSym; i++){
-      if(strcmp(tableIterator->symTab[i].id, id) == 0){
-        printf("error - id: %s was previously declared\n", id);
-        exit(0);
-      }
+  symbolTable *tableIterator = &globalSymTab;
+  if (tableIterator->symTab.count(id) == 1)
+  {
+    printf("error - id: %s was previously declared\n", id);
+    exit(0);
   }
-  tableIterator->symTab[tableIterator->numOfSym] = symbol;
+  tableIterator->symTab.insert(pair<string, symbolEntry>(id, symbol));
   tableIterator->numOfSym++;
 }
 
-void initializeScope(){
+void symbolTable::initializeScope()
+{
   ScopeLevel++;
   printf("Initializing new scope. Scope depth:%i\n", ScopeLevel);
-  
-  struct symbolTable *newTable = (struct symbolTable*) malloc(sizeof(struct symbolTable));
+
+  symbolTable *newTable = new symbolTable();
   newTable->outerScope = CurrentScope;
   newTable->numOfSym = 0;
-    //newTable->nextReg = 0;
   CurrentScope = newTable;
 }
 
-void finalizeScope(){
+void symbolTable::finalizeScope()
+{
   printf("Exiting scope level:%i\nPrinting Table\n\n", ScopeLevel);
   printf("Name\t\tType\t\tAttributes\n");
-  
-  for(int i=0; i < CurrentScope->numOfSym; i++){
-    printSym(CurrentScope->symTab[i]);
+  symbolTableMap &symTab = CurrentScope->symTab;
+  for (symbolTableMap::iterator it = symTab.begin(); it != symTab.end(); ++it)
+  {
+    printSym(it->second);
     printf("\n");
 
-    if(CurrentScope->symTab[i].attr.references == 0){
+    if (it->second.attr.references == 0)
+    {
       printf("warning - id \"%s\" was not referenced\n\n",
-      CurrentScope->symTab[i].id);
+             it->second.id);
     }
   }
   printf("\n");
 
-  if(ScopeLevel){
-    struct symbolTable *temp = CurrentScope;
+  if (ScopeLevel)
+  {
+    symbolTable *temp = CurrentScope;
     CurrentScope = CurrentScope->outerScope;
-    free(temp);
-    temp = NULL;
+    delete(temp);
+    temp = nullptr;
     ScopeLevel--;
   }
 }
 
-enum {VAR, FUNC};
-void printSym(struct symbolEntry sym){
+enum
+{
+  VAR,
+  FUNC
+};
+
+void symbolTable::printSym(symbolEntry sym)
+{
   printf("%s\t", sym.id);
-  if(strlen(sym.id) <9) printf("\t");
-  if(sym.type == VAR)
+  if (sym.id.length() < 9)
+    printf("\t");
+  if (sym.type == VAR)
     printf("Variable\t");
   else
     printf("Function\tParameters:%i\t", sym.attr.parameters);
-  
-  if(sym.attr.type == 0)
+
+  if (sym.attr.type == 0)
     printf("INT\t");
   else
     printf("VOID\t");
 
-  if(sym.attr.array == 1)
+  if (sym.attr.array == 1)
     printf("array, size:%i", sym.attr.arrSize);
 }
-void resetparsedSymbolAttributes(){
-  parsedSymbolAttributes.type=0;
-  parsedSymbolAttributes.initialized=0;
-  parsedSymbolAttributes.references=0;
-  parsedSymbolAttributes.scope=0;
-  parsedSymbolAttributes.array=0;
-  parsedSymbolAttributes.arrSize=0;
-  parsedSymbolAttributes.parameters=0;
-  parsedSymbolAttributes.localVarStackOffset=0;
+void resetparsedSymbolAttributes()
+{
+  parsedSymbolAttributes.reset();
 }
 
-int inFunctionBody(){
+int inFunctionBody()
+{
   if (ScopeLevel == 1)
     return 1;
   return 0;
