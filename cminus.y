@@ -5,7 +5,7 @@
   #include <string.h>
   #include "emitcode.h"
   #include "symtable.h"
-
+  #include "AST.h"
   extern int yylineno;
   int yylex();
   void yyerror(const char *s);
