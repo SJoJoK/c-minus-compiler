@@ -15,7 +15,7 @@ extern YYSTYPE yylval;
 "void" 		{return VOID;}
 "while" 	{return WHILE;}
 
-[a-zA-Z]+[0-9]*	{strcpy(yylval.s,yytext);
+[a-zA-Z]+	{strcpy(yylval.s,yytext);
 		 			return ID;
 				}
 
