@@ -109,7 +109,7 @@ enum
 
 void symbolTable::printSym(symbolEntry sym)
 {
-  printf("%s\t", sym.id);
+  printf("%s\t", sym.id.c_str());
   if (sym.id.length() < 9)
     printf("\t");
   if (sym.type == VAR)

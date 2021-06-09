@@ -8,7 +8,6 @@ extern int ScopeLevel = 0;
 int TextSection = 0;
 void asmBuilder::asmBuild()
 {
-    globalSymTab.finalizeScope();
     fprintf(fp, "SECTION .data\n                                                \n");
     fprintf(fp, "ReturnMsg: db \"Return Value:%%i\",10,0\n");
     TreeNode *node = tree;
@@ -53,9 +52,16 @@ void asmBuilder::generateAsm(TreeNode *node)
             symbolTable::initializeScope();
             //Params
             TreeNode *param = node->firstChild;
-            while (param && param->nodeKind == NK_PARAMETER)
+            if(param->specificKind.parameter!=P_VOID)
             {
-                generateAsm(param);
+                while (param && param->nodeKind == NK_PARAMETER)
+                {
+                    generateAsm(param);
+                    param = param->nextBrother;
+                }
+            }
+            else
+            {
                 param = param->nextBrother;
             }
             parsedSymbolAttributes.type = node->type;
@@ -114,9 +120,10 @@ void asmBuilder::generateAsm(TreeNode *node)
             }
             //Stmts
             TreeNode *stmt = local;
-            while (stmt && stmt->nodeKind == NK_STATEMENT)
+            while (stmt && (stmt->nodeKind == NK_STATEMENT || stmt->nodeKind == NK_EXPRESSION))
             {
                 generateAsm(stmt);
+                stmt = stmt->nextBrother;
             }
             if (!inFunctionBody())
                 symbolTable::finalizeScope();
@@ -125,7 +132,7 @@ void asmBuilder::generateAsm(TreeNode *node)
         {
             int numOfChilds = 0;
             TreeNode *tmp = node->firstChild;
-            if (tmp)
+            while (tmp)
             {
                 tmp = tmp->nextBrother;
                 numOfChilds++;
@@ -232,7 +239,7 @@ void asmBuilder::generateAsm(TreeNode *node)
             //additive_expression
             generateAsm(a);
             //additive_expression
-            TreeNode *b = node->firstChild;
+            TreeNode *b = a->nextBrother;
             generateAsm(b);
             node->reg = a->reg;
             int op = node->attribute.op;
