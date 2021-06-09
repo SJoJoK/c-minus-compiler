@@ -21,11 +21,12 @@ extern FILE *yyout;
 	int value;
 	int tokenType;
 	struct TreeNode *node;
+	struct NameInfo *nameInfo;
 }
 
 %token IF ELSE INT RETURN VOID WHILE
-%token ID 
-%token NUM
+%token <nameInfo>ID 
+%token <value>NUM
 %token LTE GTE LT GT ADD SUB MUL DIV EQUAL NOTEQUAL
 %token ERROR
 
@@ -303,6 +304,13 @@ TreeNode *parse(FILE *fileIn)
   	yyparse();
 
   	return aTree;
+}
+
+int main(){
+	FILE* fp = fopen ("AST.txt", "w");	
+	yyparse();
+	printSyntaxTree(fp, aTree ,0);
+    	return 0;
 }
 
 

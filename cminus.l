@@ -1,7 +1,9 @@
 
 %{
 #include "y.tab.h"
+#include "AST.h"
 extern YYSTYPE yylval;
+static int lineNO = 1;
 %}
 
 %option noyywrap
@@ -15,11 +17,15 @@ extern YYSTYPE yylval;
 "void" 		{return VOID;}
 "while" 	{return WHILE;}
 
-[a-zA-Z]+	{strcpy(yylval.s,yytext);
-		 			return ID;
+[a-zA-Z]+	{
+				NameInfo *tmp = (NameInfo *) malloc(sizeof(NameInfo));
+				tmp->name = strdup(yytext);
+				tmp->lineNO = lineNO;
+				yylval.nameInfo = tmp;
+				return ID;
 				}
 
-[0-9]+		{yylval.n=atoi(yytext);
+[0-9]+		{yylval.value=atoi(yytext);
 		 		return NUM;
 			}
 
@@ -43,7 +49,7 @@ extern YYSTYPE yylval;
 "\]"		{return yytext[0];}
 "\{"		{return yytext[0];}
 "\}"		{return yytext[0];}
-"\n"		{yylineno++;}
+"\n"		{yylineno++;lineNO++;}
 
 
 %%

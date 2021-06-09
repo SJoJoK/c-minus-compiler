@@ -111,3 +111,163 @@ void printSyntaxTree(FILE *out, TreeNode *aTree, int numEmptySpace)
     printSyntaxTree(out, aTree->firstChild, numEmptySpace + 4);
     printSyntaxTree(out, aTree->nextBrother, numEmptySpace);
 }
+
+void printTreeNode(FILE *out, TreeNode *aNode, int numEmptySpace)
+{
+    for (int i = 0; i < numEmptySpace; i++)
+    {
+        fprintf(out, " ");
+    }
+    switch (aNode->nodeKind)
+    {
+    case NK_GLOBALSCOPE:
+        fprintf(out, "Global Scope!\n");
+        break;
+    case NK_DECLARATION:
+        switch (aNode->specificKind.declaration)
+        {
+        case D_FUN:
+            fprintf(out, "Line %d: Function Declare: %s\n", aNode->lineNO, aNode->attribute.name);
+            break;
+
+        case D_VAR:
+            fprintf(out, "Line %d: Variable Declare: %s\n", aNode->lineNO, aNode->attribute.name);
+            break;
+        case D_ARRAY:
+            fprintf(out, "Line %d: Array Declare : %s [%d]\n", aNode->lineNO, aNode->attribute.name, aNode->arraySize);
+            break;
+
+        default:
+            break;
+        }
+
+        break;
+    case NK_STATEMENT:
+        switch (aNode->specificKind.statement)
+        {
+        case S_IF:
+            fprintf(out, "If\n");
+
+            break;
+
+        case S_WHILE:
+            fprintf(out, "While\n");
+            break;
+
+        case S_COMPOUND:
+            fprintf(out, "Compound Statment\n");
+            break;
+
+        case S_RETURN:
+            fprintf(out, "Return\n");
+            break;
+
+        default:
+            break;
+        }
+
+        break;
+    case NK_EXPRESSION:
+        switch (aNode->specificKind.expression)
+        {
+        case E_OP:
+            fprintf(out, "Operator:");
+            printToken(out, aNode->attribute.op);
+            fprintf(out, "\n");
+            break;
+        case E_CONST:
+            fprintf(out, "Const: %d\n", aNode->attribute.value);
+            break;
+        case E_VAR_ID:
+            fprintf(out, "Line %d: Var: %s\n", aNode->lineNO, aNode->attribute.name);
+            break;
+        case E_ARRAY_ID:
+            fprintf(out, "Line %d: Array: %s\n", aNode->lineNO, aNode->attribute.name);
+            break;
+        case E_CALL_FUN:
+            fprintf(out, "Line %d: Call Function: %s\n", aNode->lineNO, aNode->attribute.name);
+            break;
+        case E_ASSIGN:
+            fprintf(out, "Assign:\n");
+            break;
+        default:
+            break;
+        }
+
+        break;
+    case NK_PARAMETER:
+        switch (aNode->specificKind.parameter)
+        {
+        case P_ARRAY:
+            fprintf(out, "Array parameter Declare: %s\n", aNode->attribute.name);
+            break;
+
+        case P_VAR:
+            fprintf(out, "Variable parameter Declare: %s\n", aNode->attribute.name);
+            break;
+
+        case P_VOID:
+            fprintf(out, "Void parameter Declare: \n");
+            break;
+        default:
+            break;
+        }
+
+    default:
+        break;
+    }
+}
+
+void printToken(FILE *out, int aToken)
+{
+
+    switch (aToken)
+    {
+    case SUB:
+        fprintf(out, "-");
+        break;
+
+    case ADD:
+        fprintf(out, "+");
+        break;
+
+    case MUL:
+        fprintf(out, "*");
+        break;
+
+    case DIV:
+        fprintf(out, "/");
+        break;
+
+    case LT:
+        fprintf(out, "<");
+        break;
+
+    case LTE:
+        fprintf(out, "<=");
+        break;
+
+    case GT:
+        fprintf(out, ">");
+        break;
+
+    case GTE:
+        fprintf(out, ">=");
+        break;
+
+    case EQUAL:
+        fprintf(out, "==");
+        break;
+
+    case NOTEQUAL:
+        fprintf(out, "!=");
+        break;
+
+    case '=':
+        fprintf(out, "=");
+        break;
+
+    default:
+        break;
+    }
+}

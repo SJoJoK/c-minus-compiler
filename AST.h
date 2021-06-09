@@ -2,12 +2,17 @@
 #define _SYNTEXTREE_
 
 #include <stdio.h>
-
+#include "y.tab.h"
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
+    typedef struct NameInfo
+    {
+        char *name;
+        int lineNO;
+    } NameInfo;
     typedef enum
     {
         NK_GLOBALSCOPE,
