@@ -63,8 +63,6 @@ int main(int argc, char *argv[])
 
     symbolTable aSymbolTable;
 
-    CurrentScope = new symbolTable(nullptr, 0, 0);
-    globalSymTab = *CurrentScope;
     fp = targetCodeFile;
     asmBuilder ab(myTree);
     ab.asmBuild();
