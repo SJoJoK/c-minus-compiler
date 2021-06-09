@@ -1,0 +1,35 @@
+Initializing new scope. Scope depth:1
+adding symbol to table
+n               Variable        INT
+
+adding symbol to table
+factorial       Function        Parameters:1    INT
+
+Exiting scope level:1
+Printing Table
+
+Name            Type            Attributes
+n               Variable        INT
+
+Initializing new scope. Scope depth:1
+adding symbol to table
+main            Function        Parameters:0    INT
+
+adding symbol to table
+a               Variable        INT
+
+Exiting scope level:1
+Printing Table
+
+Name            Type            Attributes
+a               Variable        INT
+
+Exiting scope level:0
+Printing Table
+
+Name            Type            Attributes
+factorial       Function        Parameters:1    INT
+main            Function        Parameters:0    INT
+
+
+Parsing complete
