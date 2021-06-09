@@ -1,4 +1,10 @@
 #include"asmBuilder.h"
+#include"global.h"
+extern int LabelSeed = 0;
+extern int NumOfParams = 0;
+extern int ArgList[3] = {0, 0, 0};
+extern int ArgNum = 0;
+extern int ScopeLevel = 0;
 int TextSection = 0;
 void asmBuilder::asmBuild()
 {

@@ -4,13 +4,6 @@
 #include "AST.h"
 #include "symTable.h"
 #include "emitcode.h"
-extern symbolAttributes parsedSymbolAttributes;
-extern symbolTable globalSymTab;
-extern symbolTable *CurrentScope;
-extern int LabelSeed;
-extern int NumOfParams;
-extern int ArgList[3];
-extern int ArgNum;
 class asmBuilder
 {
 public:

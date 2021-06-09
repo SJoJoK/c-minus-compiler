@@ -6,25 +6,37 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include<unordered_map>
-#include<string>
+#include <unordered_map>
+#include <string>
 
 using namespace std;
 class symbolAttributes
 {
 public:
-	int type = 0;
-	int initialized = 0;
-	int references = 0;
-	int scope = 0;
-	int array = 0;
-	int arrSize = 0;
+	int type;
+	int initialized;
+	int references;
+	int scope;
+	int array;
+	int arrSize;
 	// 如果符号为参数，则parameter为其序号
 	// 如果符号为函数，则为其所需参数数
 	// 否则为零
-	int parameters = 0;
-	int localVarStackOffset = 0;
-	int regContainingArrIndex = 0;
+	int parameters;
+	int localVarStackOffset;
+	int regContainingArrIndex;
+	symbolAttributes()
+	{
+		type = 0;
+		initialized = 0;
+		references = 0;
+		scope = 0;
+		array = 0;
+		arrSize = 0;
+		parameters = 0;
+		localVarStackOffset = 0;
+		regContainingArrIndex = 0;
+	}
 	void reset()
 	{
 		this->type = 0;
@@ -38,17 +50,19 @@ public:
 	}
 };
 
-class symbolEntry{
+class symbolEntry
+{
 public:
 	symbolEntry(){};
 	symbolEntry(string id, int type, symbolAttributes attr) : id(id), type(type), attr(attr){};
 	string id;
-	int type;	/*variable or function*/
+	int type; /*variable or function*/
 	symbolAttributes attr;
 };
 
 typedef std::unordered_map<string, symbolEntry> symbolTableMap;
-class symbolTable{
+class symbolTable
+{
 public:
 	symbolTable(){};
 	symbolTable(symbolTable *outerScope, int numOfSym, int numOfLocalVar)
@@ -60,7 +74,7 @@ public:
 	symbolTableMap symTab;
 	symbolTable *outerScope;
 	int numOfSym;
-  	int numOfLocalVar;
+	int numOfLocalVar;
 	static symbolEntry *lookUpSym(string id);
 	static void insertSym(string id, symbolAttributes attr, int type);
 	static void insertGlobalSym(string id, symbolAttributes attr, int type);
@@ -69,7 +83,3 @@ public:
 	static void printSym(symbolEntry sym);
 };
 int inFunctionBody();
-symbolAttributes parsedSymbolAttributes;
-symbolTable *CurrentScope = new symbolTable(nullptr, 0, 0);
-symbolTable globalSymTab = *CurrentScope;
-int ScopeLevel = 0;

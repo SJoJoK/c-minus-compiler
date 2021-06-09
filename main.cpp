@@ -1,10 +1,14 @@
-
 #include "asmBuilder.h"
 #include "emitcode.h"
+#include "global.h"
 #include <stdio.h>
 #include <string>
+extern FILE *fp = nullptr;
+extern "C"
+{
+    TreeNode *parse(FILE *fileIn);
+}
 
-extern TreeNode *parse(FILE *fileIn);
 int main(int argc, char *argv[])
 {
     //    QApplication a(argc, argv);
@@ -53,6 +57,9 @@ int main(int argc, char *argv[])
 
     symbolTable aSymbolTable;
 
+    CurrentScope = new symbolTable(nullptr, 0, 0);
+    globalSymTab = *CurrentScope;
+
     printSyntaxTree(treeFile, myTree, 0);
 
     asmBuilder ab(myTree, targetCodeFile);
@@ -60,7 +67,6 @@ int main(int argc, char *argv[])
     fclose(treeFile);
     fclose(sourceCodeFile);
     fclose(targetCodeFile);
-
 
     return 0;
     //    return a.exec();
