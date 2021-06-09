@@ -5,13 +5,13 @@
 ## 编译方式
 
 ```shell
-yacc -d cminus.y
-lex cminus.l
-gcc lex.yy.c y.tab.c emitcode.c symtable.c
-./a.out < 'sourcecode'
+cd build
+cmake ..
+make
+cminus 'sourcecode'
 ```
 
-即可生成x86汇编代码
+即可生成x86汇编代码与语法树
 
 ## 运行方式
 

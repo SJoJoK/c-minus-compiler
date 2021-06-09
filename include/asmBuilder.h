@@ -7,12 +7,10 @@
 class asmBuilder
 {
 public:
-    FILE *fp;
     TreeNode *tree;
-    asmBuilder(TreeNode *tree, FILE *fp)
+    asmBuilder(TreeNode *tree)
     {
         this->tree = tree;
-        this->fp = fp;
     }
     void asmBuild();
     void generateAsm(TreeNode *node);

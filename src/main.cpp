@@ -36,11 +36,12 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (!sourceCodeFile)
-    {
-        printf("Error:Missing the source code file!\n");
-        return 0;
-    }
+    // if (!sourceCodeFile)
+    // {
+    //     printf("Error:Missing the source code file!\n");
+    //     return 0;
+    // }
+    sourceCodeFile = fopen("../test/test.c", "r");
 
     if (!targetCodeFile)
     {
@@ -53,22 +54,24 @@ int main(int argc, char *argv[])
         treeName = "./AST.txt";
         treeFile = fopen("./AST.txt", "w");
     }
+    
     TreeNode *myTree = parse(sourceCodeFile);
+    fclose(sourceCodeFile);
+
+    printSyntaxTree(treeFile, myTree, 0);
+    fclose(treeFile);
 
     symbolTable aSymbolTable;
 
     CurrentScope = new symbolTable(nullptr, 0, 0);
     globalSymTab = *CurrentScope;
-
-    printSyntaxTree(treeFile, myTree, 0);
-
-    asmBuilder ab(myTree, targetCodeFile);
+    fp = targetCodeFile;
+    asmBuilder ab(myTree);
     ab.asmBuild();
 
-    fclose(treeFile);
-    fclose(sourceCodeFile);
+    
+    
     fclose(targetCodeFile);
 
     return 0;
-    //    return a.exec();
 }
