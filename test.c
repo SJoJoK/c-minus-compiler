@@ -1,3 +1,4 @@
+int x;
 int factorial(int n)
 {
     int i;
@@ -11,6 +12,7 @@ int factorial(int n)
     else
         return (n * factorial(n - 1));
 }
+int y;
 int main(void)
 {
     int a;

@@ -1,44 +1,46 @@
 Global Scope!
-    Line 1: Function Declare: factorial
+    Line 1: Variable Declare: x
+    Line 2: Function Declare: factorial
         Variable parameter Declare: n
         Compound Statment
-            Line 3: Variable Declare: i
+            Line 4: Variable Declare: i
             Assign:
-                Line 4: Var: i
+                Line 5: Var: i
                 Const: 6
             While
                 Operator:!=
-                    Line 5: Var: i
+                    Line 6: Var: i
                     Const: 0
                 Compound Statment
                     Assign:
-                        Line 7: Var: i
+                        Line 8: Var: i
                         Operator:-
-                            Line 7: Var: i
+                            Line 8: Var: i
                             Const: 1
             If
                 Operator:==
-                    Line 9: Var: n
+                    Line 10: Var: n
                     Const: 1
                 Return
                     Const: 1
                 Return
                     Operator:*
-                        Line 12: Var: n
-                        Line 12: Call Function: factorial
+                        Line 13: Var: n
+                        Line 13: Call Function: factorial
                             Operator:-
-                                Line 12: Var: n
+                                Line 13: Var: n
                                 Const: 1
-    Line 14: Function Declare: main
+    Line 15: Variable Declare: y
+    Line 16: Function Declare: main
         Void parameter Declare: 
         Compound Statment
-            Line 16: Variable Declare: a
+            Line 18: Variable Declare: a
             Assign:
-                Line 17: Var: a
+                Line 19: Var: a
                 Const: 4
             Assign:
-                Line 18: Var: a
-                Line 18: Call Function: factorial
-                    Line 18: Var: a
+                Line 20: Var: a
+                Line 20: Call Function: factorial
+                    Line 20: Var: a
             Return
-                Line 19: Var: a
+                Line 21: Var: a
