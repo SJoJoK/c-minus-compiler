@@ -1,33 +1,5 @@
-#include"y.tab.h"
-#include "AST.h"
-#include "symTable.h"
-#include "emitcode.h"
-extern symbolAttributes parsedSymbolAttributes;
-extern symbolTable globalSymTab;
-extern symbolTable *CurrentScope;
-extern int LabelSeed;
-extern int NumOfParams;
-extern int ArgList[3];
-extern int ArgNum;
+#include"asmBuilder.h"
 int TextSection = 0;
-
-class asmBuilder
-{
-public:
-    FILE *fp;
-    TreeNode *tree;
-    asmBuilder(TreeNode *tree, FILE *fp)
-    {
-        this->tree = tree;
-        this->fp = fp;
-    }
-    void asmBuild(){};
-    void generateGlobalScope();
-    void generateCallMain();
-    void generateProgramEnd();
-    void generateIOFunctions();
-    void generateAsm(TreeNode *node);
-};
 void asmBuilder::asmBuild()
 {
     globalSymTab.finalizeScope();

@@ -1,10 +1,13 @@
 #ifndef EMITCODE_H
 #define EMITCODE_H
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "symTable.h"
+int LabelSeed = 0;
+int NumOfParams = 0;
 int ArgList[3];
-int ArgNum;
-int NumOfParams;
-int LabelSeed;
+int ArgNum = 0;
 FILE *fp;
 
 void emitAluOp(int op, int reg1, int reg2);

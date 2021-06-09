@@ -1,6 +1,6 @@
-#include "y.tab.h"
-#include "AST.h"
-#include "symTable.h"
+
+#include "asmBuilder.h"
+#include "emitcode.h"
 #include <stdio.h>
 #include <string>
 
@@ -13,6 +13,8 @@ int main(int argc, char *argv[])
 
     FILE *targetCodeFile = nullptr;
     FILE *sourceCodeFile = nullptr;
+    FILE *treeFile = nullptr;
+    std::string treeName;
     std::string sourceCodeName;
     std::string targetCodeName;
     for (int i = 1; i < argc; i++)
@@ -42,10 +44,20 @@ int main(int argc, char *argv[])
         targetCodeFile = fopen("./output.asm", "w");
     }
 
+    if (!treeFile)
+    {
+        treeName = "./AST.txt";
+        treeFile = fopen("./AST.txt", "w");
+    }
     TreeNode *myTree = parse(sourceCodeFile);
 
     symbolTable aSymbolTable;
 
+    printSyntaxTree(treeFile, myTree, 0);
+
+    asmBuilder ab(myTree, targetCodeFile);
+
+    fclose(treeFile);
     fclose(sourceCodeFile);
     fclose(targetCodeFile);
 

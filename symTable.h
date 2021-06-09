@@ -3,6 +3,9 @@
 #define MAX_NAME_LENGTH 20
 #define MAX_SYMBOLS_PER_TABLE 10
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include<unordered_map>
 #include<string>
 
@@ -67,5 +70,6 @@ public:
 };
 int inFunctionBody();
 symbolAttributes parsedSymbolAttributes;
-symbolTable globalSymTab;
-symbolTable *CurrentScope;
+symbolTable *CurrentScope = new symbolTable(nullptr, 0, 0);
+symbolTable globalSymTab = *CurrentScope;
+int ScopeLevel = 0;

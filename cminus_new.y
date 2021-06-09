@@ -308,12 +308,12 @@ TreeNode *parse(FILE *fileIn)
 
   	return aTree;
 }
-
+/* 
 int main(){
 	FILE* fp = fopen ("AST.txt", "w");	
 	yyparse();
 	printSyntaxTree(fp, aTree ,0);
     	return 0;
-}
+} */
 
 

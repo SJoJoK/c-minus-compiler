@@ -1,16 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "emitcode.h"
-#include "symTable.h"
 
-int LabelSeed = 0;
-int NumOfParams = 0;
-int ArgList[3];
-int ArgNum = 0;
-
-FILE *fp;
-
+#include"emitcode.h"
 int nextFreeReg = 0;
 const int MaxNumOfLocalVar = 4;
 

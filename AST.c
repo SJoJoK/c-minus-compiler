@@ -1,7 +1,4 @@
 #include "AST.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 
 TreeNode *createNode()
 {
@@ -48,7 +45,7 @@ TreeNode *createParameterNode(ParameterKind specificKind)
 {
     TreeNode *aNode = createNode();
     aNode->nodeKind = NK_PARAMETER;
-    aNode->specificKind.expression = specificKind;
+    aNode->specificKind.parameter = specificKind;
     return aNode;
 }
 
@@ -170,13 +167,21 @@ void printTreeNode(FILE *out, TreeNode *aNode, int numEmptySpace)
     case NK_EXPRESSION:
         switch (aNode->specificKind.expression)
         {
-        case E_OP:
+        case E_AOP:
+            fprintf(out, "Operator:");
+            printToken(out, aNode->attribute.op);
+            fprintf(out, "\n");
+            break;
+        case E_ROP:
             fprintf(out, "Operator:");
             printToken(out, aNode->attribute.op);
             fprintf(out, "\n");
             break;
         case E_CONST:
             fprintf(out, "Const: %d\n", aNode->attribute.value);
+            break;
+        case E_ID:
+            fprintf(out, "Var in a expression:\n");
             break;
         case E_VAR_ID:
             fprintf(out, "Line %d: Var: %s\n", aNode->lineNO, aNode->attribute.name);

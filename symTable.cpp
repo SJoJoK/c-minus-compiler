@@ -1,12 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "symTable.h"
 
-symbolTable *CurrentScope = new symbolTable(nullptr, 0, 0);
-symbolTable globalSymTab = *CurrentScope;
-symbolAttributes parsedSymbolAttributes;
-int ScopeLevel = 0;
 
 symbolEntry *symbolTable::lookUpSym(string id)
 {

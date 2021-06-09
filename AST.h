@@ -1,8 +1,10 @@
 #ifndef _SYNTEXTREE_
 #define _SYNTEXTREE_
 
-#include <stdio.h>
 #include "y.tab.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #ifdef __cplusplus
 extern "C"
 {

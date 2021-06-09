@@ -4,3 +4,4 @@ y.tab.*
 output*
 a.out
 .vscode
+build/
