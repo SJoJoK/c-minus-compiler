@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 project(cminus)
-# Search all the .cpp files in the directory where CMakeLists lies and set them to ${SOURCE_FILES}.
-# Search all the .h files in the directory where CMakeLists lies and set them to ${INCLUDE_FILES}.
-file(GLOB CPP_SOURCE_FILES *.cpp)
-file(GLOB C_SOURCE_FILES *.c)
-# Add the executable Example to be built from the source files
+file(GLOB CPP_SOURCE_FILES src/*.cpp)
+file(GLOB C_SOURCE_FILES src/*.c)
 add_executable(cminus ${CPP_SOURCE_FILES} ${C_SOURCE_FILES})
-# Link the executable to the libraries
+target_include_directories(cminus
+    PUBLIC 
+        ${PROJECT_SOURCE_DIR}/include
+)

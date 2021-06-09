@@ -1,6 +1,5 @@
-
-#include"emitcode.h"
-#include"global.h"
+#include "emitcode.h"
+#include "global.h"
 int nextFreeReg = 0;
 const int MaxNumOfLocalVar = 4;
 
