@@ -47,8 +47,10 @@ extern "C"
 
     typedef enum
     {
-        E_OP,
+        E_ROP,
+        E_AOP,
         E_CONST,
+        E_ID,
         E_VAR_ID,
         E_ARRAY_ID,
         E_CALL_FUN,
@@ -60,6 +62,8 @@ extern "C"
         struct TreeNode *firstChild;
         struct TreeNode *nextBrother;
         int lineNO;
+        int LabelSeed;
+        int reg;
         NodeKind nodeKind;
         union
         {

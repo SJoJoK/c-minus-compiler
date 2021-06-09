@@ -2,6 +2,7 @@ Global Scope!
     Line 1: Variable Declare: x
     Line 2: Function Declare: factorial
         Variable parameter Declare: n
+        Variable parameter Declare: ab
         Compound Statment
             Line 4: Variable Declare: i
             Assign:
@@ -21,26 +22,32 @@ Global Scope!
                 Operator:==
                     Line 10: Var: n
                     Const: 1
-                Return
-                    Const: 1
+                Compound Statment
+                    Assign:
+                        Line 12: Var: i
+                        Operator:+
+                            Line 12: Var: i
+                            Const: 1
+                    Return
+                        Const: 1
                 Return
                     Operator:*
-                        Line 13: Var: n
-                        Line 13: Call Function: factorial
+                        Line 16: Var: n
+                        Line 16: Call Function: factorial
                             Operator:-
-                                Line 13: Var: n
+                                Line 16: Var: n
                                 Const: 1
-    Line 15: Variable Declare: y
-    Line 16: Function Declare: main
+    Line 18: Variable Declare: y
+    Line 19: Function Declare: main
         Void parameter Declare: 
         Compound Statment
-            Line 18: Variable Declare: a
+            Line 21: Variable Declare: a
             Assign:
-                Line 19: Var: a
+                Line 22: Var: a
                 Const: 4
             Assign:
-                Line 20: Var: a
-                Line 20: Call Function: factorial
-                    Line 20: Var: a
+                Line 23: Var: a
+                Line 23: Call Function: factorial
+                    Line 23: Var: a
             Return
-                Line 21: Var: a
+                Line 24: Var: a

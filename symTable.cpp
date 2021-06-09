@@ -130,10 +130,6 @@ void symbolTable::printSym(symbolEntry sym)
   if (sym.attr.array == 1)
     printf("array, size:%i", sym.attr.arrSize);
 }
-void resetparsedSymbolAttributes()
-{
-  parsedSymbolAttributes.reset();
-}
 
 int inFunctionBody()
 {

@@ -49,16 +49,16 @@ void emitDeclaration(int type, char *id){
 
 void emitAluOp(int op, int reg1, int reg2){
     switch(op){
-        case ADD:
+        case PLUS:
             fprintf(fp, "add %s, %s\n",regToString(reg1),regToString(reg2));
             break;
-        case SUB:
+        case MINUS:
             fprintf(fp, "sub %s, %s\n",regToString(reg1),regToString(reg2));
             break;
         case MULT:
             fprintf(fp, "imul %s, %s\n",regToString(reg1),regToString(reg2));
             break;
-        case DIV:
+        case DIVI:
             fprintf(fp, "idiv %s, %s\n",regToString(reg1),regToString(reg2));
             break;
     }

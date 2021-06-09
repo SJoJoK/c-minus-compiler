@@ -8,7 +8,7 @@ int LabelSeed;
 FILE *fp;
 
 void emitAluOp(int op, int reg1, int reg2);
-enum {ADD, SUB, MULT, DIV} ALU_OPS;
+enum {PLUS, MINUS, MULT, DIVI} ALU_OPS;
 
 void emitRelOp(int op, int reg1, int reg2);
 enum {EQU, NEQU, LESS, GTR, LTEQU, GTEQU} RELATION_OPS;

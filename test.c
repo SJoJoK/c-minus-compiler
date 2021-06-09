@@ -1,5 +1,5 @@
 int x;
-int factorial(int n)
+int factorial(int n, int ab)
 {
     int i;
     i = 6;
@@ -8,7 +8,10 @@ int factorial(int n)
         i = i - 1;
     }
     if (n == 1)
+    {
+        i = i + 1;
         return 1;
+    }
     else
         return (n * factorial(n - 1));
 }

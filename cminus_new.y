@@ -79,8 +79,8 @@ var_declaration: type_specifier ID ';' 	{
 														}
                ;
 
-type_specifier: INT {$$ = 0; }
-              | VOID {$$ = 1;}
+type_specifier: INT {$$ = INT; }
+              | VOID {$$ = VOID;}
               ;
 
 fun_declaration: type_specifier ID '(' params ')' compound_stmt { 		
@@ -216,7 +216,7 @@ var: ID {
    ;
 
 simple_expression: additive_expression relop additive_expression {
-																	$$=createExpressionNode(E_OP);
+																	$$=createExpressionNode(E_ROP);
                                                                   	addChildNode($$, $1);
 																  	addChildNode($$, $3);
 																  	$$->attribute.op = $2;
@@ -232,7 +232,7 @@ relop: LTE {$$ = LTE;}
      ;
 
 additive_expression: additive_expression addop term {
-														$$=createExpressionNode(E_OP);
+														$$=createExpressionNode(E_AOP);
 													 	addChildNode($$, $1);
 													 	addChildNode($$, $3);
 													 	$$->attribute.op = $2;
@@ -245,7 +245,7 @@ addop: ADD {$$ = ADD;}
      ;
     
 term: term mulop factor {
-							$$=createExpressionNode(E_OP);
+							$$=createExpressionNode(E_AOP);
 							addChildNode($$, $1);
 						 	addChildNode($$, $3);
 							$$->attribute.op = $2;
@@ -258,7 +258,10 @@ mulop: MUL {$$ = MUL;}
      ;
 
 factor: '(' expression ')' {$$ = $2;}
-      | var { $$ = $1;}
+      | var { 	
+		  		$$ = createExpressionNode(E_ID);
+	  	      	addChildNode($$, $1);
+			}
       | call { $$ = $1;}
       | NUM { 
 				$$ = createExpressionNode(E_CONST);

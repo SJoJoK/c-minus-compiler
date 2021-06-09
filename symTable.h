@@ -58,14 +58,14 @@ public:
 	symbolTable *outerScope;
 	int numOfSym;
   	int numOfLocalVar;
-	symbolEntry *lookUpSym(string id);
-	void insertSym(string id, symbolAttributes attr, int type);
-	void insertGlobalSym(string id, symbolAttributes attr, int type);
-	void initializeScope();
-	void finalizeScope();
-	void printSym(symbolEntry sym);
+	static symbolEntry *lookUpSym(string id);
+	static void insertSym(string id, symbolAttributes attr, int type);
+	static void insertGlobalSym(string id, symbolAttributes attr, int type);
+	static void initializeScope();
+	static void finalizeScope();
+	static void printSym(symbolEntry sym);
 };
-
+int inFunctionBody();
 symbolAttributes parsedSymbolAttributes;
 symbolTable globalSymTab;
 symbolTable *CurrentScope;
