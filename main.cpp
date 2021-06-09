@@ -63,6 +63,7 @@ int main(int argc, char *argv[])
     printSyntaxTree(treeFile, myTree, 0);
 
     asmBuilder ab(myTree, targetCodeFile);
+    ab.asmBuild();
 
     fclose(treeFile);
     fclose(sourceCodeFile);
