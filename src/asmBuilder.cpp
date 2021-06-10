@@ -34,11 +34,13 @@ void asmBuilder::generateAsm(TreeNode *node)
     {
         if (node->specificKind.declaration == D_VAR)
         {
+            parsedSymbolAttributes.type = node->type;
             symbolTable::insertSym(node->attribute.name, parsedSymbolAttributes, VAR);
             parsedSymbolAttributes.reset();
         }
         else if (node->specificKind.declaration == D_ARRAY)
         {
+            parsedSymbolAttributes.type = node->type;
             parsedSymbolAttributes.array = 1;
             parsedSymbolAttributes.arrSize = node->arraySize;
             symbolTable::insertSym(node->attribute.name, parsedSymbolAttributes, VAR);
@@ -87,6 +89,7 @@ void asmBuilder::generateAsm(TreeNode *node)
         }
         else if (node->specificKind.parameter == P_VAR)
         {
+            parsedSymbolAttributes.type = node->type;
             parsedSymbolAttributes.parameters = NumOfParams + 1;
             parsedSymbolAttributes.initialized = 1;
             symbolTable::insertSym(node->attribute.name, parsedSymbolAttributes, VAR);
@@ -95,6 +98,7 @@ void asmBuilder::generateAsm(TreeNode *node)
         }
         else if (node->specificKind.parameter == P_ARRAY)
         {
+            parsedSymbolAttributes.type = node->type;
             parsedSymbolAttributes.parameters = NumOfParams + 1;
             parsedSymbolAttributes.array = 1;
             parsedSymbolAttributes.initialized = 1;
