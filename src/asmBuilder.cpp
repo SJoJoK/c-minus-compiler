@@ -279,7 +279,7 @@ void asmBuilder::generateAsm(TreeNode *node)
             //additive_expression
             generateAsm(a);
             //additive_expression
-            TreeNode *b = node->firstChild;
+            TreeNode *b = a->nextBrother;
             generateAsm(b);
             node->reg = a->reg;
             int op = node->attribute.op;
