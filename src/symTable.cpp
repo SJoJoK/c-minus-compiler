@@ -1,5 +1,6 @@
 #include "symTable.h"
 #include "global.h"
+#include "y.tab.h"
 extern symbolAttributes parsedSymbolAttributes = symbolAttributes();
 extern symbolTable *CurrentScope = new symbolTable(nullptr, 0, 0);
 extern symbolTable& globalSymTab = *CurrentScope;
@@ -117,7 +118,7 @@ void symbolTable::printSym(symbolEntry sym)
   else
     printf("Function\tParameters:%i\t", sym.attr.parameters);
 
-  if (sym.attr.type == 0)
+  if (sym.attr.type == INT)
     printf("INT\t");
   else
     printf("VOID\t");
