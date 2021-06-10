@@ -1,6 +1,6 @@
 #include"symTable.h"
 extern symbolAttributes parsedSymbolAttributes;
-extern symbolTable globalSymTab;
+extern symbolTable& globalSymTab;
 extern symbolTable *CurrentScope;
 extern int LabelSeed;
 extern int NumOfParams;
