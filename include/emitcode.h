@@ -1,14 +1,12 @@
 #ifndef EMITCODE_H
 #define EMITCODE_H
-
-int ArgList[3];
-int ArgNum;
-int NumOfParams;
-int LabelSeed;
-FILE *fp;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "symTable.h"
 
 void emitAluOp(int op, int reg1, int reg2);
-enum {ADD, SUB, MULT, DIV} ALU_OPS;
+enum {PLUS, MINUS, MULT, DIVI} ALU_OPS;
 
 void emitRelOp(int op, int reg1, int reg2);
 enum {EQU, NEQU, LESS, GTR, LTEQU, GTEQU} RELATION_OPS;
