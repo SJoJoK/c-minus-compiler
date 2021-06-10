@@ -20,7 +20,7 @@ nasm -f elf -g -F stabs output.asm -l output.lst
 gcc –m32 output.o –o output
 ```
 
-仅可在Linux系统上运行，请确保已经安装 gcc-multlib 
+仅可在Linux系统上运行，请确保已经安装 gcc-multlib
 
 Ubuntu下使用
 
