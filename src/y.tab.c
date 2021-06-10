@@ -75,16 +75,17 @@
 
 static struct TreeNode *aTree;
 extern int lineNO;
+extern int yylineno;
 extern int	yylex();
-int yyerror (char *s){ 
-    fprintf(stderr,"%s\n",s);
-    return 0;
+void yyerror (char const *s)
+{
+  fprintf (stderr, "%s, line:%i\n", s, yylineno);
 }	
 extern FILE *yyin;
 extern FILE *yyout;
 
 
-#line 88 "y.tab.c"
+#line 89 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -178,7 +179,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 19 "cminus_new.y"
+#line 20 "cminus_new.y"
 
 	char *name;
 	int value;
@@ -186,7 +187,7 @@ union YYSTYPE
 	struct TreeNode *node;
 	struct NameInfo *nameInfo;
 
-#line 190 "y.tab.c"
+#line 191 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -563,13 +564,13 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    44,    44,    50,    61,    64,    65,    67,    73,    82,
-      83,    86,    96,    97,   103,   107,   110,   116,   124,   131,
-     142,   145,   156,   159,   160,   161,   162,   163,   166,   167,
-     170,   176,   184,   190,   191,   197,   202,   205,   210,   218,
-     224,   226,   227,   228,   229,   230,   231,   234,   240,   243,
-     244,   247,   253,   256,   257,   260,   261,   265,   266,   272,
-     280,   281,   284,   294
+       0,    45,    45,    51,    62,    65,    66,    68,    74,    83,
+      84,    87,    97,    98,   104,   108,   111,   117,   125,   132,
+     143,   146,   157,   160,   161,   162,   163,   164,   167,   168,
+     171,   177,   185,   191,   192,   198,   203,   206,   211,   219,
+     225,   227,   228,   229,   230,   231,   232,   235,   242,   245,
+     246,   249,   256,   259,   260,   263,   264,   268,   269,   276,
+     284,   285,   288,   298
 };
 #endif
 
@@ -1429,16 +1430,16 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 44 "cminus_new.y"
+#line 45 "cminus_new.y"
                            {
 							aTree = createGlobalScopeNode();
 							addChildNode(aTree, (yyvsp[0].node)); 
 		           		   }
-#line 1438 "y.tab.c"
+#line 1439 "y.tab.c"
     break;
 
   case 3:
-#line 50 "cminus_new.y"
+#line 51 "cminus_new.y"
                                                 {
 													if ((yyvsp[-1].node) != NULL)
 													{
@@ -1450,40 +1451,40 @@ yyreduce:
 														(yyval.node) = (yyvsp[0].node);
 													}
 												}
-#line 1454 "y.tab.c"
+#line 1455 "y.tab.c"
     break;
 
   case 4:
-#line 61 "cminus_new.y"
+#line 62 "cminus_new.y"
                               {(yyval.node) = (yyvsp[0].node);}
-#line 1460 "y.tab.c"
+#line 1461 "y.tab.c"
     break;
 
   case 5:
-#line 64 "cminus_new.y"
+#line 65 "cminus_new.y"
                              {(yyval.node) = (yyvsp[0].node);}
-#line 1466 "y.tab.c"
+#line 1467 "y.tab.c"
     break;
 
   case 6:
-#line 65 "cminus_new.y"
+#line 66 "cminus_new.y"
                              {(yyval.node) = (yyvsp[0].node);}
-#line 1472 "y.tab.c"
+#line 1473 "y.tab.c"
     break;
 
   case 7:
-#line 67 "cminus_new.y"
+#line 68 "cminus_new.y"
                                         {
 											(yyval.node)=createDeclarationNode(D_VAR);
 									     	(yyval.node)->type = (yyvsp[-2].tokenType);
 										 	(yyval.node)->attribute.name =strdup((yyvsp[-1].nameInfo)->name);
 										 	(yyval.node)->lineNO = (yyvsp[-1].nameInfo)->lineNO;
 										}
-#line 1483 "y.tab.c"
+#line 1484 "y.tab.c"
     break;
 
   case 8:
-#line 73 "cminus_new.y"
+#line 74 "cminus_new.y"
                                                         {
 															(yyval.node)=createDeclarationNode(D_ARRAY);
 															(yyval.node)->type = (yyvsp[-5].tokenType);
@@ -1491,23 +1492,23 @@ yyreduce:
 															(yyval.node)->lineNO = (yyvsp[-4].nameInfo)->lineNO;														   
 															(yyval.node)->arraySize = (yyvsp[-2].value);
 														}
-#line 1495 "y.tab.c"
+#line 1496 "y.tab.c"
     break;
 
   case 9:
-#line 82 "cminus_new.y"
+#line 83 "cminus_new.y"
                     {(yyval.tokenType) = INT; }
-#line 1501 "y.tab.c"
+#line 1502 "y.tab.c"
     break;
 
   case 10:
-#line 83 "cminus_new.y"
+#line 84 "cminus_new.y"
                      {(yyval.tokenType) = VOID;}
-#line 1507 "y.tab.c"
+#line 1508 "y.tab.c"
     break;
 
   case 11:
-#line 86 "cminus_new.y"
+#line 87 "cminus_new.y"
                                                                 { 		
 																		(yyval.node) = createDeclarationNode(D_FUN);
 																	    (yyval.node)->attribute.name = strdup((yyvsp[-4].nameInfo)->name);	 
@@ -1516,73 +1517,73 @@ yyreduce:
 																		addChildNode((yyval.node), (yyvsp[-2].node));
 																		addChildNode((yyval.node), (yyvsp[0].node));
 																}
-#line 1520 "y.tab.c"
+#line 1521 "y.tab.c"
     break;
 
   case 12:
-#line 96 "cminus_new.y"
+#line 97 "cminus_new.y"
                    {(yyval.node) = (yyvsp[0].node);}
-#line 1526 "y.tab.c"
+#line 1527 "y.tab.c"
     break;
 
   case 13:
-#line 97 "cminus_new.y"
+#line 98 "cminus_new.y"
              {
 		  		(yyval.node) = createParameterNode(P_VOID);
-	  		  	(yyval.node)->type = 0;
+	  		  	(yyval.node)->type = VOID;
 			 }
-#line 1535 "y.tab.c"
+#line 1536 "y.tab.c"
     break;
 
   case 14:
-#line 103 "cminus_new.y"
+#line 104 "cminus_new.y"
                                         { 	
 										(yyval.node) = (yyvsp[-2].node);
 										addBrotherNode((yyvsp[-2].node), (yyvsp[0].node));
 									}
-#line 1544 "y.tab.c"
+#line 1545 "y.tab.c"
     break;
 
   case 15:
-#line 107 "cminus_new.y"
+#line 108 "cminus_new.y"
                   {(yyval.node) = (yyvsp[0].node);}
-#line 1550 "y.tab.c"
+#line 1551 "y.tab.c"
     break;
 
   case 16:
-#line 110 "cminus_new.y"
+#line 111 "cminus_new.y"
                          {
 							(yyval.node)=createParameterNode(P_VAR);
 						  	(yyval.node)->type = (yyvsp[-1].tokenType);
 						  	(yyval.node)->attribute.name = (yyvsp[0].nameInfo)->name;
 						  	(yyval.node)->lineNO = (yyvsp[0].nameInfo)->lineNO;
 						 }
-#line 1561 "y.tab.c"
+#line 1562 "y.tab.c"
     break;
 
   case 17:
-#line 116 "cminus_new.y"
+#line 117 "cminus_new.y"
                                  { 			
 		 							(yyval.node)=createParameterNode(P_ARRAY);
 						  			(yyval.node)->type  = (yyvsp[-3].tokenType);
 									(yyval.node)->attribute.name = (yyvsp[-2].nameInfo)->name;
 									(yyval.node)->lineNO = (yyvsp[-2].nameInfo)->lineNO;
 								 }
-#line 1572 "y.tab.c"
+#line 1573 "y.tab.c"
     break;
 
   case 18:
-#line 124 "cminus_new.y"
+#line 125 "cminus_new.y"
                                                          {		
 															(yyval.node) = createStatementNode(S_COMPOUND);
 															addChildNode((yyval.node), (yyvsp[-2].node));
 															addChildNode((yyval.node), (yyvsp[-1].node));
 														 }
-#line 1582 "y.tab.c"
+#line 1583 "y.tab.c"
     break;
 
   case 19:
-#line 131 "cminus_new.y"
+#line 132 "cminus_new.y"
                                                        {
 															if ((yyvsp[-1].node) != NULL)
 															{
@@ -1594,17 +1595,17 @@ yyreduce:
 															(yyval.node) = (yyvsp[0].node);
 															}
 														}
-#line 1598 "y.tab.c"
+#line 1599 "y.tab.c"
     break;
 
   case 20:
-#line 142 "cminus_new.y"
+#line 143 "cminus_new.y"
                                 {(yyval.node)=NULL;}
-#line 1604 "y.tab.c"
+#line 1605 "y.tab.c"
     break;
 
   case 21:
-#line 145 "cminus_new.y"
+#line 146 "cminus_new.y"
                                          {
 											if ((yyvsp[-1].node) != NULL)
 											{
@@ -1616,306 +1617,309 @@ yyreduce:
 											(yyval.node) = (yyvsp[0].node);
 											}
 										}
-#line 1620 "y.tab.c"
+#line 1621 "y.tab.c"
     break;
 
   case 22:
-#line 156 "cminus_new.y"
+#line 157 "cminus_new.y"
                              {(yyval.node)=NULL;}
-#line 1626 "y.tab.c"
+#line 1627 "y.tab.c"
     break;
 
   case 23:
-#line 159 "cminus_new.y"
+#line 160 "cminus_new.y"
                            {(yyval.node)=(yyvsp[0].node);}
-#line 1632 "y.tab.c"
+#line 1633 "y.tab.c"
     break;
 
   case 24:
-#line 160 "cminus_new.y"
+#line 161 "cminus_new.y"
                          {(yyval.node)=(yyvsp[0].node);}
-#line 1638 "y.tab.c"
+#line 1639 "y.tab.c"
     break;
 
   case 25:
-#line 161 "cminus_new.y"
+#line 162 "cminus_new.y"
                           {(yyval.node)=(yyvsp[0].node);}
-#line 1644 "y.tab.c"
+#line 1645 "y.tab.c"
     break;
 
   case 26:
-#line 162 "cminus_new.y"
+#line 163 "cminus_new.y"
                           {(yyval.node)=(yyvsp[0].node);}
-#line 1650 "y.tab.c"
+#line 1651 "y.tab.c"
     break;
 
   case 27:
-#line 163 "cminus_new.y"
+#line 164 "cminus_new.y"
                        {(yyval.node)=(yyvsp[0].node);}
-#line 1656 "y.tab.c"
+#line 1657 "y.tab.c"
     break;
 
   case 28:
-#line 166 "cminus_new.y"
+#line 167 "cminus_new.y"
                                 {(yyval.node) = (yyvsp[-1].node);}
-#line 1662 "y.tab.c"
+#line 1663 "y.tab.c"
     break;
 
   case 29:
-#line 167 "cminus_new.y"
+#line 168 "cminus_new.y"
                      {(yyval.node) = NULL;}
-#line 1668 "y.tab.c"
+#line 1669 "y.tab.c"
     break;
 
   case 30:
-#line 170 "cminus_new.y"
+#line 171 "cminus_new.y"
                                                 {		
 													(yyval.node) = createStatementNode(S_IF);
 													addChildNode((yyval.node), (yyvsp[-2].node));
 													addChildNode((yyval.node), (yyvsp[0].node)); 
 														
 												}
-#line 1679 "y.tab.c"
+#line 1680 "y.tab.c"
     break;
 
   case 31:
-#line 176 "cminus_new.y"
+#line 177 "cminus_new.y"
                                                                {
 				  													(yyval.node) = createStatementNode(S_IF);
 			  														addChildNode((yyval.node), (yyvsp[-4].node));
 																	addChildNode((yyval.node), (yyvsp[-2].node));
 																	addChildNode((yyval.node), (yyvsp[0].node));
 																}
-#line 1690 "y.tab.c"
+#line 1691 "y.tab.c"
     break;
 
   case 32:
-#line 184 "cminus_new.y"
+#line 185 "cminus_new.y"
                                                    {	(yyval.node) = createStatementNode(S_WHILE);
 														addChildNode((yyval.node), (yyvsp[-2].node));
 														addChildNode((yyval.node), (yyvsp[0].node));
 													}
-#line 1699 "y.tab.c"
+#line 1700 "y.tab.c"
     break;
 
   case 33:
-#line 190 "cminus_new.y"
+#line 191 "cminus_new.y"
                         {(yyval.node) = createStatementNode(S_RETURN);}
-#line 1705 "y.tab.c"
+#line 1706 "y.tab.c"
     break;
 
   case 34:
-#line 191 "cminus_new.y"
+#line 192 "cminus_new.y"
                                    {
 			   						(yyval.node) = createStatementNode(S_RETURN);
 		   						    addChildNode((yyval.node), (yyvsp[-1].node));
 									}
-#line 1714 "y.tab.c"
+#line 1715 "y.tab.c"
     break;
 
   case 35:
-#line 197 "cminus_new.y"
+#line 198 "cminus_new.y"
                                {
 									(yyval.node) = createExpressionNode(E_ASSIGN);
 								   	addChildNode((yyval.node), (yyvsp[-2].node));
 								   	addChildNode((yyval.node), (yyvsp[0].node));
 								}
-#line 1724 "y.tab.c"
+#line 1725 "y.tab.c"
     break;
 
   case 36:
-#line 202 "cminus_new.y"
+#line 203 "cminus_new.y"
                               {(yyval.node) = (yyvsp[0].node);}
-#line 1730 "y.tab.c"
+#line 1731 "y.tab.c"
     break;
 
   case 37:
-#line 205 "cminus_new.y"
+#line 206 "cminus_new.y"
         {
 			(yyval.node)=createExpressionNode(E_VAR_ID);
 		 	(yyval.node)->attribute.name = strdup((yyvsp[0].nameInfo)->name);
 	     	(yyval.node)->lineNO = (yyvsp[0].nameInfo)->lineNO;
 		}
-#line 1740 "y.tab.c"
+#line 1741 "y.tab.c"
     break;
 
   case 38:
-#line 210 "cminus_new.y"
+#line 211 "cminus_new.y"
                                 {
 	   							(yyval.node)=createExpressionNode(E_ARRAY_ID);
 								(yyval.node)->attribute.name = strdup((yyvsp[-3].nameInfo)->name);
 								(yyval.node)->lineNO = (yyvsp[-3].nameInfo)->lineNO;
 								addChildNode((yyval.node), (yyvsp[-1].node));
 							}
-#line 1751 "y.tab.c"
+#line 1752 "y.tab.c"
     break;
 
   case 39:
-#line 218 "cminus_new.y"
+#line 219 "cminus_new.y"
                                                                  {
 																	(yyval.node)=createExpressionNode(E_ROP);
                                                                   	addChildNode((yyval.node), (yyvsp[-2].node));
 																  	addChildNode((yyval.node), (yyvsp[0].node));
 																  	(yyval.node)->attribute.op = (yyvsp[-1].tokenType);
 																}
-#line 1762 "y.tab.c"
+#line 1763 "y.tab.c"
     break;
 
   case 40:
-#line 224 "cminus_new.y"
+#line 225 "cminus_new.y"
                                        {(yyval.node) = (yyvsp[0].node);}
-#line 1768 "y.tab.c"
+#line 1769 "y.tab.c"
     break;
 
   case 41:
-#line 226 "cminus_new.y"
+#line 227 "cminus_new.y"
            {(yyval.tokenType) = LTE;}
-#line 1774 "y.tab.c"
+#line 1775 "y.tab.c"
     break;
 
   case 42:
-#line 227 "cminus_new.y"
+#line 228 "cminus_new.y"
           {(yyval.tokenType) = LT;}
-#line 1780 "y.tab.c"
+#line 1781 "y.tab.c"
     break;
 
   case 43:
-#line 228 "cminus_new.y"
+#line 229 "cminus_new.y"
           {(yyval.tokenType) = GT;}
-#line 1786 "y.tab.c"
+#line 1787 "y.tab.c"
     break;
 
   case 44:
-#line 229 "cminus_new.y"
+#line 230 "cminus_new.y"
            {(yyval.tokenType) = GTE;}
-#line 1792 "y.tab.c"
+#line 1793 "y.tab.c"
     break;
 
   case 45:
-#line 230 "cminus_new.y"
+#line 231 "cminus_new.y"
              {(yyval.tokenType) = EQUAL;}
-#line 1798 "y.tab.c"
+#line 1799 "y.tab.c"
     break;
 
   case 46:
-#line 231 "cminus_new.y"
+#line 232 "cminus_new.y"
                 {(yyval.tokenType) = NOTEQUAL;}
-#line 1804 "y.tab.c"
+#line 1805 "y.tab.c"
     break;
 
   case 47:
-#line 234 "cminus_new.y"
+#line 235 "cminus_new.y"
                                                     {
 														(yyval.node)=createExpressionNode(E_AOP);
 													 	addChildNode((yyval.node), (yyvsp[-2].node));
 													 	addChildNode((yyval.node), (yyvsp[0].node));
 													 	(yyval.node)->attribute.op = (yyvsp[-1].tokenType);
+														(yyval.node)->type = (yyvsp[0].node)->type;
 													}
-#line 1815 "y.tab.c"
+#line 1817 "y.tab.c"
     break;
 
   case 48:
-#line 240 "cminus_new.y"
+#line 242 "cminus_new.y"
                           {(yyval.node) = (yyvsp[0].node);}
-#line 1821 "y.tab.c"
+#line 1823 "y.tab.c"
     break;
 
   case 49:
-#line 243 "cminus_new.y"
+#line 245 "cminus_new.y"
            {(yyval.tokenType) = ADD;}
-#line 1827 "y.tab.c"
+#line 1829 "y.tab.c"
     break;
 
   case 50:
-#line 244 "cminus_new.y"
+#line 246 "cminus_new.y"
            {(yyval.tokenType) = SUB;}
-#line 1833 "y.tab.c"
+#line 1835 "y.tab.c"
     break;
 
   case 51:
-#line 247 "cminus_new.y"
+#line 249 "cminus_new.y"
                         {
 							(yyval.node)=createExpressionNode(E_AOP);
 							addChildNode((yyval.node), (yyvsp[-2].node));
 						 	addChildNode((yyval.node), (yyvsp[0].node));
 							(yyval.node)->attribute.op = (yyvsp[-1].tokenType);
+							(yyval.node)->type = (yyvsp[0].node)->type;
 						}
-#line 1844 "y.tab.c"
+#line 1847 "y.tab.c"
     break;
 
   case 52:
-#line 253 "cminus_new.y"
+#line 256 "cminus_new.y"
              {(yyval.node) = (yyvsp[0].node);}
-#line 1850 "y.tab.c"
+#line 1853 "y.tab.c"
     break;
 
   case 53:
-#line 256 "cminus_new.y"
+#line 259 "cminus_new.y"
            {(yyval.tokenType) = MUL;}
-#line 1856 "y.tab.c"
+#line 1859 "y.tab.c"
     break;
 
   case 54:
-#line 257 "cminus_new.y"
+#line 260 "cminus_new.y"
            {(yyval.tokenType) = DIV;}
-#line 1862 "y.tab.c"
+#line 1865 "y.tab.c"
     break;
 
   case 55:
-#line 260 "cminus_new.y"
+#line 263 "cminus_new.y"
                            {(yyval.node) = (yyvsp[-1].node);}
-#line 1868 "y.tab.c"
+#line 1871 "y.tab.c"
     break;
 
   case 56:
-#line 261 "cminus_new.y"
+#line 264 "cminus_new.y"
             { 	
 		  		(yyval.node) = createExpressionNode(E_ID);
 	  	      	addChildNode((yyval.node), (yyvsp[0].node));
 			}
-#line 1877 "y.tab.c"
+#line 1880 "y.tab.c"
     break;
 
   case 57:
-#line 265 "cminus_new.y"
+#line 268 "cminus_new.y"
              { (yyval.node) = (yyvsp[0].node);}
-#line 1883 "y.tab.c"
+#line 1886 "y.tab.c"
     break;
 
   case 58:
-#line 266 "cminus_new.y"
+#line 269 "cminus_new.y"
             { 
 				(yyval.node) = createExpressionNode(E_CONST);
 	  	      	(yyval.node)->attribute.value = (yyvsp[0].value);
+				(yyval.node)->type = INT;
 	  		}
-#line 1892 "y.tab.c"
+#line 1896 "y.tab.c"
     break;
 
   case 59:
-#line 272 "cminus_new.y"
+#line 276 "cminus_new.y"
                       {			
 							(yyval.node) = createExpressionNode(E_CALL_FUN);
 							(yyval.node)->attribute.name = strdup((yyvsp[-3].nameInfo)->name);
 							(yyval.node)->lineNO = (yyvsp[-3].nameInfo)->lineNO; 
 							addChildNode((yyval.node), (yyvsp[-1].node));
 						}
-#line 1903 "y.tab.c"
+#line 1907 "y.tab.c"
     break;
 
   case 60:
-#line 280 "cminus_new.y"
+#line 284 "cminus_new.y"
                {(yyval.node) = (yyvsp[0].node); }
-#line 1909 "y.tab.c"
+#line 1913 "y.tab.c"
     break;
 
   case 61:
-#line 281 "cminus_new.y"
+#line 285 "cminus_new.y"
       {(yyval.node) = NULL;}
-#line 1915 "y.tab.c"
+#line 1919 "y.tab.c"
     break;
 
   case 62:
-#line 284 "cminus_new.y"
+#line 288 "cminus_new.y"
                                   {   if ((yyvsp[-2].node) != NULL)
 										{
 											(yyval.node) = (yyvsp[-2].node);
@@ -1926,17 +1930,17 @@ yyreduce:
 											(yyval.node) = (yyvsp[0].node);
 										}
 								}
-#line 1930 "y.tab.c"
+#line 1934 "y.tab.c"
     break;
 
   case 63:
-#line 294 "cminus_new.y"
+#line 298 "cminus_new.y"
                      {(yyval.node) = (yyvsp[0].node);}
-#line 1936 "y.tab.c"
+#line 1940 "y.tab.c"
     break;
 
 
-#line 1940 "y.tab.c"
+#line 1944 "y.tab.c"
 
       default: break;
     }
@@ -2168,7 +2172,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 297 "cminus_new.y"
+#line 301 "cminus_new.y"
 
 
 

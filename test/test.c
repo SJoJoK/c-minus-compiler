@@ -1,14 +1,12 @@
-int factorial(int n)
+void foo(void)
 {
-    if (n == 1)
-        return 1;
-    else
-        return (n * factorial(n - 1));
+
 }
 int main(void)
 {
     int a;
-    a = 4;
-    a = factorial(a);
+    int b[10];
+    b[0] = 1;
+    a = b[0];
     return a;
 }

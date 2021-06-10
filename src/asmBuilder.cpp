@@ -1,5 +1,6 @@
 #include"asmBuilder.h"
 #include"global.h"
+#include"ctype.h"
 extern int LabelSeed = 0;
 extern int NumOfParams = 0;
 extern int ArgList[3] = {0, 0, 0};
@@ -233,6 +234,8 @@ void asmBuilder::generateAsm(TreeNode *node)
             //Expression
             TreeNode *exp = var->nextBrother;
             generateAsm(exp);
+            if (exp->type!=var->type)
+                printf("error - cant assign different variables \n");
             node->reg = 9;
             emitMemOp(STORE, var->attribute.name, exp->reg);
             releaseOneRegister();
@@ -246,6 +249,8 @@ void asmBuilder::generateAsm(TreeNode *node)
             TreeNode *b = a->nextBrother;
             generateAsm(b);
             node->reg = a->reg;
+            if (a->type != b->type)
+                printf("error - cant compare different type variables\n");
             int op = node->attribute.op;
             switch (op)
             {
@@ -282,6 +287,8 @@ void asmBuilder::generateAsm(TreeNode *node)
             TreeNode *b = a->nextBrother;
             generateAsm(b);
             node->reg = a->reg;
+            if (a->type != b->type)
+                printf("error - cant operate different type variables\n");
             int op = node->attribute.op;
             switch (op)
             {
@@ -306,12 +313,16 @@ void asmBuilder::generateAsm(TreeNode *node)
         else if (node->specificKind.expression == E_CONST)
         {
             node->reg = nextFreeRegister();
+            node->attribute.name = (char *)malloc(25 * sizeof(char));
+            sprintf(node->attribute.name, "%d", node->attribute.value);
             emitLoadConst(node->reg, node->attribute.value);
         }
         else if (node->specificKind.expression == E_ID)
         {
             generateAsm(node->firstChild);
             node->reg = nextFreeRegister();
+            node->type = node->firstChild->type;
+            node->attribute.name = node->firstChild->attribute.name;
             emitMemOp(LOAD, node->firstChild->attribute.name, node->reg);
         }
         else if (node->specificKind.expression == E_CALL_FUN)
@@ -323,13 +334,17 @@ void asmBuilder::generateAsm(TreeNode *node)
                 ArgList[NumOfParams++] = arg->reg;
                 arg = arg->nextBrother;
             }
+            symbolEntry *tmp = symbolTable::lookUpSym(node->attribute.name);
+            node->type = tmp->attr.type;
             emitCall(node->attribute.name, ArgList);
             node->reg = nextFreeRegister();
             NumOfParams = 0;
         }
         else if (node->specificKind.expression == E_VAR_ID)
         {
-            symbolTable::lookUpSym(node->attribute.name)->attr.references++;
+            symbolEntry *tmp = symbolTable::lookUpSym(node->attribute.name);
+            node->type = tmp->attr.type;
+            tmp->attr.references++;
         }
         else if (node->specificKind.expression == E_ARRAY_ID)
         {
@@ -337,8 +352,11 @@ void asmBuilder::generateAsm(TreeNode *node)
             TreeNode *exp = node->firstChild;
             generateAsm(exp);
             symbolEntry *tmp = symbolTable::lookUpSym(node->attribute.name);
+            node->type = tmp->attr.type;
             if (!tmp->attr.array)
-                printf("error - %s is not an array", tmp->id);
+                printf("error - %s is not an array\n", tmp->id);
+            if (exp->type!=INT)
+                printf("error - index in array is not integer\n", tmp->id);
             tmp->attr.references++;
             tmp->attr.regContainingArrIndex = exp->reg;
         }

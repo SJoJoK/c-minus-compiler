@@ -83,13 +83,6 @@ extern "C"
         } attribute;
         int type;
         int arraySize;
-
-        struct TreeNode *symbolMap;
-
-        int dataMemoryAddress;
-        int isAbsoluteAddress;
-
-        int scopeIndex;
     } TreeNode;
 
     TreeNode *createNode();

@@ -6,10 +6,11 @@
 
 static struct TreeNode *aTree;
 extern int lineNO;
+extern int yylineno;
 extern int	yylex();
-int yyerror (char *s){ 
-    fprintf(stderr,"%s\n",s);
-    return 0;
+void yyerror (char const *s)
+{
+  fprintf (stderr, "%s, line:%i\n", s, yylineno);
 }	
 extern FILE *yyin;
 extern FILE *yyout;
@@ -96,7 +97,7 @@ fun_declaration: type_specifier ID '(' params ')' compound_stmt {
 params: param_list {$$ = $1;}
       | VOID {
 		  		$$ = createParameterNode(P_VOID);
-	  		  	$$->type = 0;
+	  		  	$$->type = VOID;
 			 }
       ;
 
@@ -236,6 +237,7 @@ additive_expression: additive_expression addop term {
 													 	addChildNode($$, $1);
 													 	addChildNode($$, $3);
 													 	$$->attribute.op = $2;
+														$$->type = $3->type;
 													}
                    | term {$$ = $1;}
                    ;
@@ -249,6 +251,7 @@ term: term mulop factor {
 							addChildNode($$, $1);
 						 	addChildNode($$, $3);
 							$$->attribute.op = $2;
+							$$->type = $3->type;
 						}
     | factor {$$ = $1;}
     ;
@@ -266,6 +269,7 @@ factor: '(' expression ')' {$$ = $2;}
       | NUM { 
 				$$ = createExpressionNode(E_CONST);
 	  	      	$$->attribute.value = $1;
+				$$->type = INT;
 	  		}
       ;
 

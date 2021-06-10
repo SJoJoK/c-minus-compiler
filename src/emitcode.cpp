@@ -125,13 +125,13 @@ void emitRelOp(int op, int reg1, int reg2)
 
 void emitMemOp(int op, char *id, int reg)
 {
-    struct symbolEntry *sym = symbolTable::lookUpSym(id);
+    symbolEntry *sym = symbolTable::lookUpSym(id);
 
     if (op == LOAD)
     {
         if (!sym->attr.initialized)
         {
-            printf("error: variable %s not initialized\n", sym->id);
+            printf("error: variable %s not initialized\n", sym->id.c_str());
             exit(0);
         }
 
@@ -181,7 +181,7 @@ void emitLoadConst(int reg, int value)
 
 void emitCall(char *id, int argList[])
 {
-    struct symbolEntry *tmp = symbolTable::lookUpSym(id);
+    symbolEntry *tmp = symbolTable::lookUpSym(id);
     if (tmp->attr.parameters != NumOfParams)
     {
         printf("error: incorrect number of parameters\n");

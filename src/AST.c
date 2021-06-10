@@ -6,7 +6,6 @@ TreeNode *createNode()
     aNode->firstChild = NULL;
     aNode->nextBrother = NULL;
     aNode->type = -1;
-    aNode->dataMemoryAddress = -1;
     return aNode;
 }
 

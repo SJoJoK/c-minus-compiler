@@ -87,7 +87,7 @@ void symbolTable::finalizeScope()
     if (it->second.attr.references == 0)
     {
       printf("warning - id \"%s\" was not referenced\n\n",
-             it->second.id);
+             it->second.id.c_str());
     }
   }
   printf("\n");
