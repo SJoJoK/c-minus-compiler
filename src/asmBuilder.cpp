@@ -313,9 +313,10 @@ void asmBuilder::generateAsm(TreeNode *node)
         else if (node->specificKind.expression == E_CONST)
         {
             node->reg = nextFreeRegister();
+            int const_value = node->attribute.value;
             node->attribute.name = (char *)malloc(25 * sizeof(char));
-            sprintf(node->attribute.name, "%d", node->attribute.value);
-            emitLoadConst(node->reg, node->attribute.value);
+            sprintf(node->attribute.name, "%d", const_value);
+            emitLoadConst(node->reg, const_value);
         }
         else if (node->specificKind.expression == E_ID)
         {
