@@ -42,8 +42,8 @@ void emitDeclaration(int type, char *id)
             fgetpos(fp, &dataPos);
             fsetpos(fp, &pos);
         }
-        else if (CurrentScope == &globalSymTab)
-            fprintf(fp, "%s: dd\n", id);
+        // else if (CurrentScope == &globalSymTab)
+        //     fprintf(fp, "%s: dd\n", id);
         else
             symbolTable::lookUpSym(id)->attr.localVarStackOffset = CurrentScope->numOfLocalVar++;
     }
