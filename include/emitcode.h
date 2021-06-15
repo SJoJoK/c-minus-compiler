@@ -5,6 +5,8 @@
 #include <string.h>
 #include "symTable.h"
 
+void emitInit();
+
 void emitAluOp(int op, int reg1, int reg2);
 enum {PLUS, MINUS, MULT, DIVI} ALU_OPS;
 

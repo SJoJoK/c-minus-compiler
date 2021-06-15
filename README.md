@@ -31,7 +31,8 @@ cminus 'sourcefile' -o 'outputfile'
 默认源文件为test/test.c，默认输出文件为output.asm
 
 ```shell
-nasm -f elf -g -F stabs output.asm -l output.lst
+nasm -f elf output.asm 
+#使用nasm -f elf -g -F stabs output.asm -l output.lst以获得调试信息
 gcc –m32 'outputfile' –o 'outputexe'
 ```
 

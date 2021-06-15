@@ -9,8 +9,7 @@ extern int ScopeLevel = 0;
 int TextSection = 0;
 void asmBuilder::asmBuild()
 {
-    fprintf(fp, "SECTION .data\n                                                \n");
-    fprintf(fp, "ReturnMsg: db \"Return Value:%%i\",10,0\n");
+    emitInit();
     TreeNode *node = tree;
     generateAsm(node);
 };
@@ -76,7 +75,7 @@ void asmBuilder::generateAsm(TreeNode *node)
             TreeNode *stmts = param;
             generateAsm(stmts);
             symbolTable::finalizeScope();
-            if (node->hasReturn == false)
+            if (node->hasReturn)
             {
                 if (node->type == VOID)
                     emitEpilogue();

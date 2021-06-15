@@ -6,6 +6,7 @@ TreeNode *createNode()
     aNode->firstChild = NULL;
     aNode->nextBrother = NULL;
     aNode->type = -1;
+    aNode->hasReturn = 0;
     return aNode;
 }
 

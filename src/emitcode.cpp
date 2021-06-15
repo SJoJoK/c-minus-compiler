@@ -2,6 +2,17 @@
 #include "global.h"
 int nextFreeReg = 0;
 const int MaxNumOfLocalVar = 4;
+fpos_t dataPos;
+const int MAXDATALINE = 10;
+
+void emitInit()
+{
+    fprintf(fp, "SECTION .data\n                                                \n");
+    fprintf(fp, "ReturnMsg: db \"Return Value:%%i\",10,0\n");
+    fgetpos(fp, &dataPos);
+    for (int i = 0; i < MAXDATALINE; i++)
+        fprintf(fp, "                                   \n");
+}
 
 void emitDeclaration(int type, char *id)
 {
@@ -26,8 +37,9 @@ void emitDeclaration(int type, char *id)
         {
             fpos_t pos;
             fgetpos(fp, &pos);
-            fseek(fp, 14, SEEK_SET);
+            fsetpos(fp, &dataPos);
             fprintf(fp, "%s times %i dd 0\n", id, symbolTable::lookUpSym(id)->attr.arrSize);
+            fgetpos(fp, &dataPos);
             fsetpos(fp, &pos);
         }
         else if (CurrentScope == &globalSymTab)
