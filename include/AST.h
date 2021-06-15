@@ -83,6 +83,7 @@ extern "C"
         } attribute;
         int type;
         int arraySize;
+        bool hasReturn = false;
     } TreeNode;
 
     TreeNode *createNode();

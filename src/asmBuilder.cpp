@@ -1,6 +1,6 @@
-#include"asmBuilder.h"
-#include"global.h"
-#include"ctype.h"
+#include "asmBuilder.h"
+#include "global.h"
+#include "ctype.h"
 extern int LabelSeed = 0;
 extern int NumOfParams = 0;
 extern int ArgList[3] = {0, 0, 0};
@@ -23,14 +23,14 @@ void asmBuilder::generateAsm(TreeNode *node)
     case NK_GLOBALSCOPE:
     {
         TreeNode *tmp = node->firstChild;
-        while(tmp)
+        while (tmp)
         {
             generateAsm(tmp);
             tmp = tmp->nextBrother;
         }
-        symbolTable:: finalizeScope();
+        symbolTable::finalizeScope();
     }
-        break;
+    break;
     case NK_DECLARATION:
     {
         if (node->specificKind.declaration == D_VAR)
@@ -55,7 +55,7 @@ void asmBuilder::generateAsm(TreeNode *node)
             symbolTable::initializeScope();
             //Params
             TreeNode *param = node->firstChild;
-            if(param->specificKind.parameter!=P_VOID)
+            if (param->specificKind.parameter != P_VOID)
             {
                 while (param && param->nodeKind == NK_PARAMETER)
                 {
@@ -76,8 +76,14 @@ void asmBuilder::generateAsm(TreeNode *node)
             TreeNode *stmts = param;
             generateAsm(stmts);
             symbolTable::finalizeScope();
-            if (node->type == VOID)
-                emitEpilogue();
+            if (node->hasReturn == false)
+            {
+                if (node->type == VOID)
+                    emitEpilogue();
+                else
+                    printf("error - function %s has no return statement \n", node->attribute.name);
+            }
+
             releaseAllRegister();
         }
     }
@@ -197,7 +203,7 @@ void asmBuilder::generateAsm(TreeNode *node)
         }
         else if (node->specificKind.statement == S_RETURN)
         {
-            if(node->firstChild)
+            if (node->firstChild)
             {
                 TreeNode *tmp = node->firstChild;
                 //Expression
@@ -226,7 +232,7 @@ void asmBuilder::generateAsm(TreeNode *node)
     break;
     case NK_EXPRESSION:
     {
-        if(node->specificKind.expression==E_ASSIGN)
+        if (node->specificKind.expression == E_ASSIGN)
         {
             TreeNode *var = node->firstChild;
             //var
@@ -234,7 +240,7 @@ void asmBuilder::generateAsm(TreeNode *node)
             //Expression
             TreeNode *exp = var->nextBrother;
             generateAsm(exp);
-            if (exp->type!=var->type)
+            if (exp->type != var->type)
                 printf("error - cant assign different variables \n");
             node->reg = 9;
             emitMemOp(STORE, var->attribute.name, exp->reg);
@@ -329,7 +335,7 @@ void asmBuilder::generateAsm(TreeNode *node)
         else if (node->specificKind.expression == E_CALL_FUN)
         {
             TreeNode *arg = node->firstChild;
-            while(arg)
+            while (arg)
             {
                 generateAsm(arg);
                 ArgList[NumOfParams++] = arg->reg;
@@ -356,7 +362,7 @@ void asmBuilder::generateAsm(TreeNode *node)
             node->type = tmp->attr.type;
             if (!tmp->attr.array)
                 printf("error - %s is not an array\n", tmp->id);
-            if (exp->type!=INT)
+            if (exp->type != INT)
                 printf("error - index in array is not integer\n", tmp->id);
             tmp->attr.references++;
             tmp->attr.regContainingArrIndex = exp->reg;

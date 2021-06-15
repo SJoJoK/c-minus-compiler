@@ -188,9 +188,10 @@ iteration_stmt: WHILE '(' expression ')' statement {	$$ = createStatementNode(S_
 													}
               ;
 
-return_stmt: RETURN ';' {$$ = createStatementNode(S_RETURN);}
+return_stmt: RETURN ';' {$$ = createStatementNode(S_RETURN);$$->hasReturn=true;}
            | RETURN expression ';' {
 			   						$$ = createStatementNode(S_RETURN);
+									$$->hasReturn=true;
 		   						    addChildNode($$, $2);
 									}   
            ;
