@@ -29,7 +29,7 @@ void emitInput();
 
 void emitEpilogue();
 
-char *regToString(int reg);
+const char *regToString(int reg);
 enum {EAX, EBX, ECX, EDX, ESI, EDI} REGISTER_NAME;
 
 int nextFreeRegister();

@@ -263,7 +263,7 @@ void emitEpilogue()
     fprintf(fp, "ret\n\n");
 }
 
-char *regToString(int reg)
+const char *regToString(int reg)
 {
     switch (reg)
     {

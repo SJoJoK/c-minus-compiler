@@ -1,9 +1,9 @@
 #include "symTable.h"
 #include "global.h"
 #include "y.tab.h"
-extern symbolAttributes parsedSymbolAttributes = symbolAttributes();
-extern symbolTable *CurrentScope = new symbolTable(nullptr, 0, 0);
-extern symbolTable& globalSymTab = *CurrentScope;
+symbolAttributes parsedSymbolAttributes = symbolAttributes();
+symbolTable *CurrentScope = new symbolTable(nullptr, 0, 0);
+symbolTable& globalSymTab = *CurrentScope;
 symbolEntry *symbolTable::lookUpSym(string id)
 {
   struct symbolTable *tableIterator = CurrentScope;

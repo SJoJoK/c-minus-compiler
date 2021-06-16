@@ -3,7 +3,7 @@
 #include "global.h"
 #include <stdio.h>
 #include <string>
-extern FILE *fp = nullptr;
+FILE *fp = nullptr;
 extern "C"
 {
     TreeNode *parse(FILE *fileIn);
