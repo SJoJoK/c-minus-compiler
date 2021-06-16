@@ -1,19 +1,14 @@
-int x;
-int y;
-void output(int n)
+int factorial(int n)
 {
-
+    if (n == 1)
+        return 1;
+    else
+        return (n * factorial(n - 1));
 }
 int main(void)
 {
-    int a[4];
-    int c[7];
-    int b;
-    x = 0;
-    output(x);
-    x = 1;
-    output(x);
-    x = 2;
-    output(x);
-    return x;
+    int a;
+    a = 4;
+    a = factorial(a);
+    return a;
 }

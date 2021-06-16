@@ -280,7 +280,7 @@ const char *regToString(int reg)
     case EDI:
         return "edi";
     default:
-        printf("error- no more registers. reg=%i\n", reg);
+        printf("error - no more registers. reg=%i\n", reg);
         exit(0);
     }
 }
