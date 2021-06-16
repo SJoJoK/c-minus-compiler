@@ -37,6 +37,7 @@ void asmBuilder::generateAsm(TreeNode *node)
         {
             parsedSymbolAttributes.type = node->type;
             symbolTable::insertSym(node->attribute.name, parsedSymbolAttributes, VAR);
+            // emitDeclaration(VAR, node->attribute.name);
             parsedSymbolAttributes.reset();
         }
         else if (node->specificKind.declaration == D_ARRAY)
@@ -45,6 +46,7 @@ void asmBuilder::generateAsm(TreeNode *node)
             parsedSymbolAttributes.array = 1;
             parsedSymbolAttributes.arrSize = node->arraySize;
             symbolTable::insertSym(node->attribute.name, parsedSymbolAttributes, VAR);
+            emitDeclaration(VAR, node->attribute.name);
             parsedSymbolAttributes.reset();
         }
         else if (node->specificKind.declaration == D_FUN)
@@ -311,6 +313,7 @@ void asmBuilder::generateAsm(TreeNode *node)
             node->reg = a->reg;
             if (a->type != b->type)
                 printf("error - cant operate different type variables\n");
+            node->type = a->type;
             int op = node->attribute.op;
             switch (op)
             {

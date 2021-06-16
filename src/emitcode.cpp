@@ -40,7 +40,14 @@ void emitDeclaration(int type, char *id)
             fsetpos(fp, &pos);
         }
         // else if (CurrentScope == &globalSymTab)
+        // {
+        //     fpos_t pos;
+        //     fgetpos(fp, &pos);
+        //     fsetpos(fp, &dataPos);
         //     fprintf(fp, "%s: dd\n", id);
+        //     fgetpos(fp, &dataPos);
+        //     fsetpos(fp, &pos);
+        // }      
         else
             symbolTable::lookUpSym(id)->attr.localVarStackOffset = CurrentScope->numOfLocalVar++;
     }
@@ -234,7 +241,7 @@ void emitOutput(int reg)
         fprintf(fp, "push %s\n", regToString(i));
     fprintf(fp, ";push parameters\n");
     fprintf(fp, "push %s\n", regToString(reg));
-    fprintf(fp, "push OutMsg\n");
+    fprintf(fp, "push OutputMsg\n");
     fprintf(fp, "call %s\n", "printf");
     fprintf(fp, "\n;postcall\n");
     fprintf(fp, ";store return value\n");

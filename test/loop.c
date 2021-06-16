@@ -4,10 +4,6 @@ void output(int out)
 {
     ;
 }
-void xx(void)
-{
-    x = x + 3;
-}
 int main(void)
 {
     int i;
@@ -17,11 +13,13 @@ int main(void)
     {
         a[i] = x;
         i = i + 1;
-        xx();
+        x = x + 3;
     }
-    while(i<=9)
+    i = 0;
+    while (i <= 9)
     {
         output(a[i]);
+        i = i + 1;
     }
     return 0;
 }

@@ -36,12 +36,11 @@ int main(int argc, char *argv[])
         }
     }
 
-    // if (!sourceCodeFile)
-    // {
-    //     printf("Error:Missing the source code file!\n");
-    //     return 0;
-    // }
-    sourceCodeFile = fopen("../test/test.c", "r");
+    if (!sourceCodeFile)
+    {
+        sourceCodeFile = fopen("../test/loop.c", "r");
+    }
+    
 
     if (!targetCodeFile)
     {
