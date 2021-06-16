@@ -15,7 +15,7 @@ symbolEntry *symbolTable::lookUpSym(string id)
       }
     tableIterator = tableIterator->outerScope;
   }
-  printf("error - id: %s was never declared\n", id);
+  printf("error - id: %s was never declared\n", id.c_str());
   exit(0);
 }
 
@@ -34,7 +34,7 @@ void symbolTable::insertSym(string id, struct symbolAttributes attr, int type)
   {
     if (tableIterator->symTab.count(id) == 1)
     {
-      printf("error - id: %s was previously declared\n", id);
+      printf("error - id: %s was previously declared\n", id.c_str());
       exit(0);
     }
     tableIterator = tableIterator->outerScope;
@@ -56,7 +56,7 @@ void symbolTable::insertGlobalSym(string id, struct symbolAttributes attr, int t
   symbolTable *tableIterator = &globalSymTab;
   if (tableIterator->symTab.count(id) == 1)
   {
-    printf("error - id: %s was previously declared\n", id);
+    printf("error - id: %s was previously declared\n", id.c_str());
     exit(0);
   }
   tableIterator->symTab.insert(pair<string, symbolEntry>(id, symbol));

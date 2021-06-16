@@ -23,9 +23,9 @@ enum {VAR, FUNC} DECLARATION_TYPE;
 
 void emitCall(char *id, int argList[]);
 
+void emitOutput(int reg);
 
 void emitEpilogue();
-void emitPrintReturn();
 
 char *regToString(int reg);
 enum {EAX, EBX, ECX, EDX, ESI, EDI} REGISTER_NAME;

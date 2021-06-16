@@ -8,7 +8,7 @@ const int MAXDATALINE = 10;
 void emitInit()
 {
     fprintf(fp, "SECTION .data\n                                                \n");
-    fprintf(fp, "ReturnMsg: db \"Return Value:%%i\",10,0\n");
+    fprintf(fp, "OutputMsg: db \"Output Value:%%i\",10,0\n");
     fgetpos(fp, &dataPos);
     for (int i = 0; i < MAXDATALINE; i++)
         fprintf(fp, "                                   \n");
@@ -19,16 +19,13 @@ void emitDeclaration(int type, char *id)
     if (type == FUNC)
     {
         fprintf(fp, "global %s\n", id);
-        //fprintf(fp, "\t.type %s, @function\n", id);
         fprintf(fp, "%s:\n", id);
-
         fprintf(fp, ";boilerplate prologue\n");
         fprintf(fp, "push ebp\n");
         fprintf(fp, "mov ebp, esp\n");
         fprintf(fp, "push ebx\n");
         fprintf(fp, "push esi\n");
         fprintf(fp, "push edi\n");
-        /*make room for local variables*/
         fprintf(fp, "sub esp, %i\n\n", 4 * MaxNumOfLocalVar);
     }
     else if (type == VAR)
@@ -229,6 +226,32 @@ void emitCall(char *id, int argList[])
     nextFreeReg -= NumOfParams;
 }
 
+void emitOutput(int reg)
+{
+    fprintf(fp, "\n;precall\n");
+    fprintf(fp, ";save required resgisters, if any\n");
+    for (int i = 0; i < nextFreeReg - NumOfParams; i++)
+        fprintf(fp, "push %s\n", regToString(i));
+    fprintf(fp, ";push parameters\n");
+    fprintf(fp, "push %s\n", regToString(reg));
+    fprintf(fp, "push OutMsg\n");
+    fprintf(fp, "call %s\n", "printf");
+    fprintf(fp, "\n;postcall\n");
+    fprintf(fp, ";store return value\n");
+    if (nextFreeReg - NumOfParams != EAX)
+        /*registers holding parameters can be freed*/
+        fprintf(fp, "mov %s, eax\n", regToString(nextFreeReg - NumOfParams));
+
+    fprintf(fp, "\n;clear stack of parameters\n");
+    fprintf(fp, "add esp, 4\n");
+
+    fprintf(fp, "\n;restore used resgisters, if any\n");
+    for (int i = nextFreeReg - NumOfParams - 1; i >= 0; i--)
+        fprintf(fp, "pop %s\n", regToString(i));
+    fprintf(fp, "\n");
+    nextFreeReg -= NumOfParams;
+}
+
 void emitEpilogue()
 {
     fprintf(fp, "\n;boilerplate, epilogue\n");
@@ -260,15 +283,6 @@ char *regToString(int reg)
         printf("error- no more registers. reg=%i\n", reg);
         exit(0);
     }
-}
-void emitPrintReturn()
-{
-    fprintf(fp, "\n;print return value\n");
-    fprintf(fp, "push eax\n");
-    fprintf(fp, "push ReturnMsg\n");
-    fprintf(fp, "call printf\n");
-    fprintf(fp, "add esp,4\n");
-    fprintf(fp, "pop eax\n");
 }
 
 int nextFreeRegister()

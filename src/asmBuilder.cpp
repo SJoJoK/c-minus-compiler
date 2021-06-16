@@ -73,9 +73,26 @@ void asmBuilder::generateAsm(TreeNode *node)
             NumOfParams = 0;
             //Compound_stmts
             TreeNode *stmts = param;
-            generateAsm(stmts);
+            if (strcmp(node->attribute.name,"output")==0)
+            {
+                //CALL PRINTF
+                TreeNode *arg = node->firstChild;
+                arg->nodeKind = NK_EXPRESSION;
+                arg->specificKind.expression = E_VAR_ID;
+                generateAsm(arg);
+                arg->reg = nextFreeRegister();
+                emitMemOp(LOAD, arg->attribute.name, arg->reg);
+                NumOfParams = 1;
+                emitOutput(arg->reg);
+                node->reg = nextFreeRegister();
+                NumOfParams = 0;
+            }
+            else
+            {
+                generateAsm(stmts);
+            }
             symbolTable::finalizeScope();
-            if (node->hasReturn)
+            if (!node->hasReturn)
             {
                 if (node->type == VOID)
                     emitEpilogue();
@@ -210,13 +227,11 @@ void asmBuilder::generateAsm(TreeNode *node)
                 {
                     if (tmp->reg == EAX)
                     {
-                        emitPrintReturn();
                         emitEpilogue();
                     }
                     else
                     {
                         fprintf(fp, "mov eax, %s\n", regToString(tmp->reg));
-                        emitPrintReturn();
                         emitEpilogue();
                     }
                     releaseOneRegister();
