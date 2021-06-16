@@ -140,7 +140,7 @@ void emitMemOp(int op, char *id, int reg)
     {
         if (!sym->attr.initialized)
         {
-            printf("error: variable %s not initialized\n", sym->id.c_str());
+            printf("error - variable %s not initialized\n", sym->id.c_str());
             exit(0);
         }
 
@@ -193,7 +193,7 @@ void emitCall(char *id, int argList[])
     symbolEntry *tmp = symbolTable::lookUpSym(id);
     if (tmp->attr.parameters != NumOfParams)
     {
-        printf("error: incorrect number of parameters\n");
+        printf("error - incorrect number of parameters\n");
         exit(0);
     }
     tmp->attr.references++;
