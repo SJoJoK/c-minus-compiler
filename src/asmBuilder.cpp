@@ -36,10 +36,11 @@ void asmBuilder::generateAsm(TreeNode *node)
         if (node->specificKind.declaration == D_VAR)
         {
             parsedSymbolAttributes.type = node->type;
-            if(ScopeLevel==0)
+            if (ScopeLevel == 0)
                 parsedSymbolAttributes.isGlobal = 1;
             symbolTable::insertSym(node->attribute.name, parsedSymbolAttributes, VAR);
-            emitDeclaration(VAR, node->attribute.name);
+            if (ScopeLevel == 0)
+                emitDeclaration(VAR, node->attribute.name);
             parsedSymbolAttributes.reset();
         }
         else if (node->specificKind.declaration == D_ARRAY)
@@ -50,8 +51,7 @@ void asmBuilder::generateAsm(TreeNode *node)
             if (ScopeLevel == 0)
                 parsedSymbolAttributes.isGlobal = 1;
             symbolTable::insertSym(node->attribute.name, parsedSymbolAttributes, VAR);
-            if (ScopeLevel == 0)
-                emitDeclaration(VAR, node->attribute.name);
+            emitDeclaration(VAR, node->attribute.name);
             parsedSymbolAttributes.reset();
         }
         else if (node->specificKind.declaration == D_FUN)
@@ -81,7 +81,7 @@ void asmBuilder::generateAsm(TreeNode *node)
             NumOfParams = 0;
             //Compound_stmts
             TreeNode *stmts = param;
-            if (strcmp(node->attribute.name,"output")==0)
+            if (strcmp(node->attribute.name, "output") == 0)
             {
                 //CALL PRINTF
                 TreeNode *arg = node->firstChild;
