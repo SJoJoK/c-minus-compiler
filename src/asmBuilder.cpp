@@ -7,6 +7,7 @@ int ArgList[3] = {0, 0, 0};
 int ArgNum = 0;
 int ScopeLevel = 0;
 int TextSection = 0;
+bool hasReturn = false;
 void asmBuilder::asmBuild()
 {
     emitInit();
@@ -90,18 +91,16 @@ void asmBuilder::generateAsm(TreeNode *node)
             else
             {
                 generateAsm(stmts);
-                if(stmts->hasReturn)
-                    node->hasReturn = 1;
             }
             symbolTable::finalizeScope();
-            if (!node->hasReturn)
+            if (!hasReturn)
             {
                 if (node->type == VOID)
                     emitEpilogue();
                 else
                     printf("error - function %s has no return statement \n", node->attribute.name);
             }
-
+            hasReturn = false;
             releaseAllRegister();
         }
     }
@@ -152,8 +151,6 @@ void asmBuilder::generateAsm(TreeNode *node)
             while (stmt && (stmt->nodeKind == NK_STATEMENT || stmt->nodeKind == NK_EXPRESSION))
             {
                 generateAsm(stmt);
-                if (stmt->hasReturn)
-                    node->hasReturn = 1;
                 stmt = stmt->nextBrother;
             }
             if (!inFunctionBody())
@@ -226,6 +223,7 @@ void asmBuilder::generateAsm(TreeNode *node)
             if (node->firstChild)
             {
                 TreeNode *tmp = node->firstChild;
+                hasReturn = true;
                 //Expression
                 generateAsm(tmp);
                 {
