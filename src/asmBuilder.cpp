@@ -90,6 +90,8 @@ void asmBuilder::generateAsm(TreeNode *node)
             else
             {
                 generateAsm(stmts);
+                if(stmts->hasReturn)
+                    node->hasReturn = 1;
             }
             symbolTable::finalizeScope();
             if (!node->hasReturn)
@@ -150,6 +152,8 @@ void asmBuilder::generateAsm(TreeNode *node)
             while (stmt && (stmt->nodeKind == NK_STATEMENT || stmt->nodeKind == NK_EXPRESSION))
             {
                 generateAsm(stmt);
+                if (stmt->hasReturn)
+                    node->hasReturn = 1;
                 stmt = stmt->nextBrother;
             }
             if (!inFunctionBody())
