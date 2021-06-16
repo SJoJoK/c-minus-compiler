@@ -25,6 +25,8 @@ void emitCall(char *id, int argList[]);
 
 void emitOutput(int reg);
 
+void emitInput();
+
 void emitEpilogue();
 
 char *regToString(int reg);
