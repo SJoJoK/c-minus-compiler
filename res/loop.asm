@@ -2,7 +2,8 @@ SECTION .data
                                                 
 OutputMsg: db "Output Value:%i",10,0
 a times 10 dd 0
-                   
+x: dd
+             
                                    
                                    
                                    
@@ -64,7 +65,7 @@ sub esp, 16
 mov eax, 0
 mov [ebp-12], eax
 mov eax, 1
-mov [ebp-12], eax
+mov [x], eax
 While0:
 mov eax, [ebp-12]
 mov ebx, 9
@@ -78,17 +79,17 @@ EndLte1:
 cmp eax, 1
 jne EndWhile0
 mov eax, [ebp-12]
-mov ebx, [ebp-12]
+mov ebx, [x]
 mov ecx, a
 mov [ecx+4*eax], ebx
 mov ebx, [ebp-12]
 mov ecx, 1
 add ebx, ecx
 mov [ebp-12], ebx
-mov ebx, [ebp-12]
+mov ebx, [x]
 mov ecx, 3
 add ebx, ecx
-mov [ebp-12], ebx
+mov [x], ebx
 jmp While0
 EndWhile0:
 mov ebx, 0
