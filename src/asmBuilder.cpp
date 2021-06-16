@@ -1,11 +1,11 @@
 #include "asmBuilder.h"
 #include "global.h"
 #include "ctype.h"
-extern int LabelSeed = 0;
-extern int NumOfParams = 0;
-extern int ArgList[3] = {0, 0, 0};
-extern int ArgNum = 0;
-extern int ScopeLevel = 0;
+int LabelSeed = 0;
+int NumOfParams = 0;
+int ArgList[3] = {0, 0, 0};
+int ArgNum = 0;
+int ScopeLevel = 0;
 int TextSection = 0;
 void asmBuilder::asmBuild()
 {
@@ -375,9 +375,9 @@ void asmBuilder::generateAsm(TreeNode *node)
             symbolEntry *tmp = symbolTable::lookUpSym(node->attribute.name);
             node->type = tmp->attr.type;
             if (!tmp->attr.array)
-                printf("error - %s is not an array\n", tmp->id);
+                printf("error - %s is not an array\n", tmp->id.c_str());
             if (exp->type != INT)
-                printf("error - index in array is not integer\n", tmp->id);
+                printf("error - index in array is not integer\n");
             tmp->attr.references++;
             tmp->attr.regContainingArrIndex = exp->reg;
         }
