@@ -39,15 +39,15 @@ void emitDeclaration(int type, char *id)
             fgetpos(fp, &dataPos);
             fsetpos(fp, &pos);
         }
-        // else if (CurrentScope == &globalSymTab)
-        // {
-        //     fpos_t pos;
-        //     fgetpos(fp, &pos);
-        //     fsetpos(fp, &dataPos);
-        //     fprintf(fp, "%s: dd\n", id);
-        //     fgetpos(fp, &dataPos);
-        //     fsetpos(fp, &pos);
-        // }      
+        else if (CurrentScope == &globalSymTab)
+        {
+            fpos_t pos;
+            fgetpos(fp, &pos);
+            fsetpos(fp, &dataPos);
+            fprintf(fp, "%s: dd\n", id);
+            fgetpos(fp, &dataPos);
+            fsetpos(fp, &pos);
+        }      
         else
             symbolTable::lookUpSym(id)->attr.localVarStackOffset = CurrentScope->numOfLocalVar++;
     }
@@ -157,7 +157,7 @@ void emitMemOp(int op, char *id, int reg)
             fprintf(fp, "mov %s, [%s+4*%s]\n", regToString(reg),
                     regToString(nextFreeReg), regToString(symbolTable::lookUpSym(id)->attr.regContainingArrIndex));
         }
-        else if (CurrentScope == &globalSymTab)
+        else if (symbolTable::lookUpSym(id)->attr.isGlobal)
             fprintf(fp, "mov %s, [%s]\n", regToString(reg), id);
 
         else if (sym->attr.parameters == 0)
@@ -176,7 +176,7 @@ void emitMemOp(int op, char *id, int reg)
             fprintf(fp, "mov [%s+4*%s], %s\n", regToString(nextFreeReg),
                     regToString(symbolTable::lookUpSym(id)->attr.regContainingArrIndex), regToString(reg));
         }
-        else if (CurrentScope == &globalSymTab)
+        else if (symbolTable::lookUpSym(id)->attr.isGlobal)
             fprintf(fp, "mov [%s], %s\n", id, regToString(reg));
         else if (sym->attr.parameters == 0)
             fprintf(fp, "mov [ebp-%i], %s\n", 4 * (sym->attr.localVarStackOffset + 3), regToString(reg));

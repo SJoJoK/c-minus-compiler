@@ -25,6 +25,7 @@ public:
 	int parameters;
 	int localVarStackOffset;
 	int regContainingArrIndex;
+	int isGlobal;
 	symbolAttributes()
 	{
 		type = 0;
@@ -36,6 +37,7 @@ public:
 		parameters = 0;
 		localVarStackOffset = 0;
 		regContainingArrIndex = 0;
+		isGlobal = 0;
 	}
 	void reset()
 	{
@@ -47,6 +49,7 @@ public:
 		this->arrSize = 0;
 		this->parameters = 0;
 		this->localVarStackOffset = 0;
+		this->isGlobal = 0;
 	}
 };
 
