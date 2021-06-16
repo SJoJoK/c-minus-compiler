@@ -30,14 +30,10 @@ void symbolTable::insertSym(string id, struct symbolAttributes attr, int type)
   printf("\n\n");
 
   symbolTable *tableIterator = CurrentScope;
-  while (tableIterator != nullptr)
+  if (tableIterator->symTab.count(id) == 1)
   {
-    if (tableIterator->symTab.count(id) == 1)
-    {
-      printf("error - id: %s was previously declared\n", id.c_str());
-      exit(0);
-    }
-    tableIterator = tableIterator->outerScope;
+    printf("error - id: %s was previously declared\n", id.c_str());
+    exit(0);
   }
   CurrentScope->symTab.insert(pair<string, symbolEntry>(id, symbol));
   CurrentScope->numOfSym++;

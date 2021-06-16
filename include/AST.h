@@ -90,7 +90,6 @@ extern "C"
         } attribute;//结点属性
         int type;//类型，也就是int或void
         int arraySize;//数组长度，用于数组声明
-        int hasReturn;//是否有return语句，用于函数定义
     } TreeNode;
 
     TreeNode *createNode();
