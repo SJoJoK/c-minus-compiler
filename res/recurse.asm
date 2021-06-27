@@ -138,8 +138,8 @@ push edi
 sub esp, 16
 
 mov eax, 4
-mov [ebp-16], eax
-mov eax, [ebp-16]
+mov [ebp-12], eax
+mov eax, [ebp-12]
 
 ;precall
 ;save required resgisters, if any
@@ -155,7 +155,7 @@ add esp, 4
 
 ;restore used resgisters, if any
 
-mov [ebp-16], eax
+mov [ebp-12], eax
 mov eax, 0
 
 ;boilerplate, epilogue
